@@ -1,0 +1,15 @@
+{
+  "name": "personal-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "lint": "pnpm -r lint",
+    "storybook": "pnpm --filter @personal-website/ui storybook",
+    "build-storybook": "pnpm --filter @personal-website/ui build-storybook"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

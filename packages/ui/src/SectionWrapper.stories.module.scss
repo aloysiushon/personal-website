@@ -1,0 +1,58 @@
+// ============================================================
+// SectionWrapper Stories — demo content styles
+// ============================================================
+
+.demoContent {
+  text-align: center;
+
+  h2 {
+    font-size: 1.875rem; // text-3xl
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #f1f5f9; // slate-100
+  }
+
+  p {
+    color: #94a3b8; // slate-400
+  }
+}
+
+.customCard {
+  background-color: #0f172a; // slate-900
+  border: 1px solid rgba(124, 58, 237, 0.25); // violet-600/25
+  border-radius: 1rem;
+  padding: 2rem;
+
+  .label {
+    color: #a78bfa; // violet-400
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .description {
+    color: #94a3b8; // slate-400
+    font-size: 0.875rem;
+
+    code {
+      color: #f472b6; // pink-400
+    }
+  }
+}
+
+.narrowContent {
+  max-width: 24rem; // max-w-sm
+  margin: 0 auto;
+  text-align: center;
+
+  h2 {
+    color: #f1f5f9; // slate-100
+    font-size: 1.5rem; // text-2xl
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    color: #64748b; // slate-500
+    line-height: 1.625; // leading-relaxed
+  }
+}

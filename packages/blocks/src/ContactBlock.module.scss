@@ -1,0 +1,99 @@
+// ============================================================
+// ContactBlock
+// ============================================================
+
+.section {
+  background: #060b18;
+  padding: 6rem 1.5rem;
+
+  @media (max-width: 767px) {
+    padding: 3rem 1.25rem;
+  }
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.glow {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 2rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+}
+
+.label {
+  color: #a78bfa;
+  font-family: monospace;
+  font-size: 12px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.heading {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0.75rem 0 1rem;
+}
+
+.desc {
+  color: #64748b;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.link {
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.15s;
+
+  &--primary {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+  }
+
+  &--secondary {
+    padding: 11px 24px;
+    background: transparent;
+    border: 1px solid rgba(124, 58, 237, 0.35);
+    color: #a78bfa;
+
+    &:hover {
+      background: rgba(124, 58, 237, 0.08);
+    }
+  }
+}
+
+.email {
+  color: #334155;
+  font-size: 13px;
+  font-family: monospace;
+}

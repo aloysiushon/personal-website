@@ -1,0 +1,27 @@
+// ============================================================
+// FooterBlock
+// ============================================================
+
+.footer {
+  background: #030712;
+  border-top: 1px solid rgba(124, 58, 237, 0.12);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.primary {
+  color: #475569;
+  font-size: 14px;
+}
+
+.primary__name {
+  color: #a78bfa;
+  font-weight: 600;
+}
+
+.secondary {
+  color: #1e293b;
+  font-size: 12px;
+  margin-top: 8px;
+  font-family: monospace;
+}

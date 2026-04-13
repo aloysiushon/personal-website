@@ -1,0 +1,31 @@
+{
+  "name": "@personal-website/ui",
+  "version": "1.0.0",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "^8.6.18",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react": "^8.6.18",
+    "@storybook/react-vite": "^8.6.18",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/react": "^18.3.3",
+    "@vitejs/plugin-react": "^4.7.0",
+    "autoprefixer": "^10.4.27",
+    "sass": "^1.99.0",
+    "storybook": "^8.6.18",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.4.21"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  }
+}
