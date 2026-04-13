@@ -1,12 +1,5 @@
 @import "tailwindcss";
 
-/* Tell Tailwind 4 to scan workspace packages for classes */
-
-:root {
-  --background: #030712;
-  --foreground: #f9fafb;
-}
-
 html {
   scroll-behavior: smooth;
 }
@@ -24,34 +17,4 @@ body {
 .engine-root {
   min-height: 100vh;
   background: #030712;
-}
-
-/* Drag-and-drop canvas */
-.dnd-canvas {
-  position: relative;
-  min-height: 100vh;
-}
-
-.dnd-block-dragging {
-  opacity: 0.5;
-  cursor: grabbing;
-}
-
-.dnd-block-over {
-  outline: 2px dashed #7c3aed;
-  outline-offset: 4px;
-  border-radius: 12px;
-}
-
-/* Gradient text utility */
-.gradient-text {
-  background: linear-gradient(135deg, #a78bfa, #f472b6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glow effects */
-.glow-violet {
-  box-shadow: 0 0 40px rgba(124, 58, 237, 0.3);
 }
