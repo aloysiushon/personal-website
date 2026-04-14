@@ -22,6 +22,7 @@ import { Engine } from "@personal-website/engine";
 import type { Block, PageSchema } from "@personal-website/engine";
 import { registerAllBlocks, HeroBlock, AboutBlock, SkillsBlock, ProjectsBlock, ContactBlock, NavbarBlock, FooterBlock } from "@personal-website/blocks";
 import { portfolioSchema } from "@/data/portfolio.schema";
+import { BlockEditSidebar } from "@/components/BlockEditSidebar";
 
 // Register all blocks once on module load
 registerAllBlocks();
@@ -56,19 +57,22 @@ interface SortableBlockProps {
   readonly block: Block;
   readonly isEditing: boolean;
   readonly isHidden: boolean;
+  readonly isSelected: boolean;
   readonly onRemove: (id: string) => void;
   readonly onToggleVisibility: (id: string) => void;
+  readonly onSelect: (id: string) => void;
 }
 
-function SortableBlock({ block, isEditing, isHidden, onRemove, onToggleVisibility }: SortableBlockProps) {
+function SortableBlock({ block, isEditing, isHidden, isSelected, onRemove, onToggleVisibility, onSelect }: SortableBlockProps) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: block.id,
   });
 
   const blockOpacity = isDragging || isHidden ? 0.35 : 1;
   let blockOutline = "none";
-  if (isDragging) blockOutline = "2px dashed #7c3aed";
-  else if (isEditing) blockOutline = "1px dashed rgba(124,58,237,0.25)";
+  if (isDragging)   blockOutline = "2px dashed #7c3aed";
+  else if (isSelected) blockOutline = "2px solid #7c3aed";
+  else if (isEditing)  blockOutline = "1px dashed rgba(124,58,237,0.25)";
 
   const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
@@ -90,7 +94,21 @@ function SortableBlock({ block, isEditing, isHidden, onRemove, onToggleVisibilit
           position: "absolute", top: 12, right: 12, zIndex: 100,
           display: "flex", alignItems: "center", gap: 6,
         }}>
-          {/* Hide / Show toggle */}
+          {/* Edit content */}
+          <button
+            onClick={() => onSelect(block.id)}
+            title="Edit block content"
+            style={{
+              background: isSelected ? "rgba(124,58,237,0.9)" : "rgba(30,41,59,0.85)",
+              color: "#fff", border: "1px solid rgba(124,58,237,0.4)",
+              padding: "5px 10px", borderRadius: 8,
+              fontSize: 13, fontWeight: 600, cursor: "pointer",
+              backdropFilter: "blur(8px)",
+              boxShadow: "0 2px 8px rgba(124,58,237,0.3)",
+            }}
+          >
+            ✏️ Edit
+          </button>
           <button
             onClick={() => onToggleVisibility(block.id)}
             title={isHidden ? "Show block" : "Hide block"}
@@ -248,6 +266,7 @@ const STORAGE_KEY   = "portfolio-block-order";
 const HIDDEN_KEY    = "portfolio-block-hidden";
 const REMOVED_KEY   = "portfolio-block-removed";
 const ADDED_KEY     = "portfolio-block-added";
+const EDITED_KEY    = "portfolio-block-edited";
 
 // ── Default props for newly added blocks ───────────────────
 // When a user adds a block type, we seed it with sensible defaults.
@@ -301,15 +320,24 @@ const defaultProps: Record<string, Record<string, unknown>> = {
 };
 
 /** Re-order portfolioSchema blocks to match a saved ID order, merging any runtime-added blocks. */
-function applyStoredState(savedIds: string[], addedBlocks: Block[], removedIds: Set<string>): PageSchema {
+function applyStoredState(
+  savedIds: string[],
+  addedBlocks: Block[],
+  removedIds: Set<string>,
+  editedProps: Record<string, Record<string, unknown>>,
+): PageSchema {
   // Base blocks from schema excluding removed ones + any runtime-added ones
   const baseBlocks = portfolioSchema.blocks.filter((b) => !removedIds.has(b.id));
   const allBlocks = [...baseBlocks, ...addedBlocks];
-  const blockMap = new Map(allBlocks.map((b) => [b.id, b]));
+  // Merge any edited props
+  const mergedBlocks = allBlocks.map((b) =>
+    editedProps[b.id] ? { ...b, props: { ...b.props, ...editedProps[b.id] } } : b
+  );
+  const blockMap = new Map(mergedBlocks.map((b) => [b.id, b]));
   const ordered = savedIds.flatMap((id) => (blockMap.has(id) ? [blockMap.get(id)!] : []));
   // Append any new blocks not present in the saved order
   const savedSet = new Set(savedIds);
-  const extra = allBlocks.filter((b) => !savedSet.has(b.id));
+  const extra = mergedBlocks.filter((b) => !savedSet.has(b.id));
   return { ...portfolioSchema, blocks: [...ordered, ...extra] };
 }
 
@@ -321,6 +349,8 @@ export function PortfolioPage(): React.ReactElement {
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [mounted, setMounted] = useState(false);
+  /** Block currently selected for content editing in the sidebar */
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   /** Set of block IDs that are hidden (but not removed) */
   const [hiddenIds, setHiddenIds] = useState<Set<string>>(new Set());
   /** Tracks removed original-schema block IDs — used only to clear on reset */
@@ -335,9 +365,12 @@ export function PortfolioPage(): React.ReactElement {
       const savedHidden  = localStorage.getItem(HIDDEN_KEY);
       const savedAdded   = localStorage.getItem(ADDED_KEY);
       const savedRemoved = localStorage.getItem(REMOVED_KEY);
+      const savedEdited  = localStorage.getItem(EDITED_KEY);
 
       const addedBlocks: Block[]   = savedAdded   ? (JSON.parse(savedAdded)   as Block[])   : [];
       const removedSet = new Set<string>(savedRemoved ? (JSON.parse(savedRemoved) as string[]) : []);
+      const editedMap: Record<string, Record<string, unknown>> =
+        savedEdited ? (JSON.parse(savedEdited) as Record<string, Record<string, unknown>>) : {};
 
       // Track counter so new IDs don't clash
       addedBlocks.forEach((b) => {
@@ -351,9 +384,9 @@ export function PortfolioPage(): React.ReactElement {
 
       if (savedOrder) {
         const ids: string[] = JSON.parse(savedOrder);
-        startTransition(() => setSchema(applyStoredState(ids, addedBlocks, removedSet)));
-      } else if (addedBlocks.length > 0 || removedSet.size > 0) {
-        startTransition(() => setSchema(applyStoredState([], addedBlocks, removedSet)));
+        startTransition(() => setSchema(applyStoredState(ids, addedBlocks, removedSet, editedMap)));
+      } else if (addedBlocks.length > 0 || removedSet.size > 0 || Object.keys(editedMap).length > 0) {
+        startTransition(() => setSchema(applyStoredState([], addedBlocks, removedSet, editedMap)));
       }
 
       if (savedHidden) {
@@ -395,7 +428,34 @@ export function PortfolioPage(): React.ReactElement {
     } catch { /* ignore */ }
   }, []);
 
-  // ── DnD ───────────────────────────────────────────────────
+  const persistEdited = useCallback((map: Record<string, Record<string, unknown>>) => {
+    try {
+      localStorage.setItem(EDITED_KEY, JSON.stringify(map));
+    } catch { /* ignore */ }
+  }, []);
+
+  // ── Edit block props ──────────────────────────────────────
+  const handlePropChange = useCallback((id: string, newProps: Record<string, unknown>) => {
+    setSchema((prev) => {
+      const next = {
+        ...prev,
+        blocks: prev.blocks.map((b) => b.id === id ? { ...b, props: newProps } : b),
+      };
+      // Build a patch map: only store props that differ from the original schema for original blocks,
+      // or the full props for added blocks (already stored in ADDED_KEY).
+      const originalIds = new Set(portfolioSchema.blocks.map((b) => b.id));
+      if (originalIds.has(id)) {
+        const savedEdited = localStorage.getItem(EDITED_KEY);
+        const current: Record<string, Record<string, unknown>> =
+          savedEdited ? (JSON.parse(savedEdited) as Record<string, Record<string, unknown>>) : {};
+        persistEdited({ ...current, [id]: newProps });
+      }
+      // For added blocks, re-persist the whole added list with updated props
+      persistAdded(next.blocks);
+      return next;
+    });
+    setSelectedId(null);
+  }, [persistEdited, persistAdded]);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
   );
@@ -480,8 +540,10 @@ export function PortfolioPage(): React.ReactElement {
     localStorage.removeItem(HIDDEN_KEY);
     localStorage.removeItem(ADDED_KEY);
     localStorage.removeItem(REMOVED_KEY);
+    localStorage.removeItem(EDITED_KEY);
     setSchema(portfolioSchema);
     setHiddenIds(new Set());
+    setSelectedId(null);
     removedIdsRef.current = new Set();
   }, []);
 
@@ -516,9 +578,25 @@ export function PortfolioPage(): React.ReactElement {
   }
 
   // Editing mode: DnD sortable canvas
+  const selectedBlock = schema.blocks.find((b) => b.id === selectedId) ?? null;
+  const sidebarOpen = selectedBlock !== null;
+
   return (
     <>
-      {/* Editing toolbar */}
+      {/*
+        In edit mode, un-fix the Navbar so it flows normally in the canvas
+        below the Block Editor toolbar. The selector targets the CSS Module
+        class that NavbarBlock.module.scss compiles to (starts with "header").
+      */}
+      <style>{`
+        header[class*="header"] {
+          position: relative !important;
+          top: auto !important;
+          z-index: auto !important;
+        }
+      `}</style>
+
+      {/* Editing toolbar — always on top at 0 */}
       <div style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999,
         background: "rgba(3,7,18,0.95)", backdropFilter: "blur(12px)",
@@ -528,10 +606,9 @@ export function PortfolioPage(): React.ReactElement {
       }}>
         <span style={{ color: "#a78bfa", fontWeight: 700, fontSize: 15, display: "flex", alignItems: "center", gap: 8 }}>
           <span style={{ fontSize: 18 }}>⠿</span>{" "}Block Editor
-          <span style={{ color: "#475569", fontWeight: 400, fontSize: 12 }}>{"— drag • hide • remove • add"}</span>
+          <span style={{ color: "#475569", fontWeight: 400, fontSize: 12 }}>{"— drag • edit • hide • remove • add"}</span>
         </span>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          {/* Add block */}
           <AddBlockMenu
             existingTypes={schema.blocks.map((b) => b.type)}
             onAdd={handleAddBlock}
@@ -547,7 +624,7 @@ export function PortfolioPage(): React.ReactElement {
             ↺ Reset
           </button>
           <button
-            onClick={() => setIsEditing(false)}
+            onClick={() => { setIsEditing(false); setSelectedId(null); }}
             style={{
               background: "linear-gradient(135deg, #7c3aed, #6d28d9)",
               border: "none", color: "#fff", padding: "6px 16px",
@@ -560,8 +637,8 @@ export function PortfolioPage(): React.ReactElement {
         </div>
       </div>
 
-      {/* Canvas */}
-      <div style={{ paddingTop: 56 }}>
+      {/* Canvas — shrinks when sidebar is open, offset only by toolbar (56px) */}
+      <div style={{ paddingTop: 56, marginRight: sidebarOpen ? 340 : 0, transition: "margin-right 0.2s ease" }}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -577,9 +654,11 @@ export function PortfolioPage(): React.ReactElement {
                 key={block.id}
                 block={block}
                 isEditing={isEditing}
+                isSelected={block.id === selectedId}
                 isHidden={hiddenIds.has(block.id)}
                 onRemove={handleRemove}
                 onToggleVisibility={handleToggleVisibility}
+                onSelect={setSelectedId}
               />
             ))}
           </SortableContext>
@@ -593,6 +672,13 @@ export function PortfolioPage(): React.ReactElement {
           </DragOverlay>
         </DndContext>
       </div>
+
+      {/* Block edit sidebar */}
+      <BlockEditSidebar
+        block={selectedBlock}
+        onClose={() => setSelectedId(null)}
+        onChange={handlePropChange}
+      />
     </>
   );
 }

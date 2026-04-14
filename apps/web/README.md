@@ -8,6 +8,7 @@ The Next.js 16 app that renders the personal portfolio. It is part of the `perso
 - **[React 19](https://react.dev)**
 - **[Tailwind CSS v4](https://tailwindcss.com)** + **SCSS Modules** for styling
 - **[TypeScript](https://www.typescriptlang.org)**
+- **[@dnd-kit/core + @dnd-kit/sortable](https://dndkit.com)** — drag-and-drop block reordering
 - **[@personal-website/engine](../../packages/engine)** — block registry & renderer
 - **[@personal-website/blocks](../../packages/blocks)** — pre-built page-section blocks
 - **[@personal-website/ui](../../packages/ui)** — shared UI primitives
@@ -17,11 +18,12 @@ The Next.js 16 app that renders the personal portfolio. It is part of the `perso
 ```
 src/
 ├── app/
-│   ├── layout.tsx        # Root layout (imports global CSS & fonts)
-│   ├── page.tsx          # Entry point — renders <PortfolioPage />
-│   └── globals.css       # Global styles
+│   ├── layout.tsx           # Root layout (imports global CSS & fonts)
+│   ├── page.tsx             # Entry point — renders <PortfolioPage />
+│   └── globals.css          # Global styles
 ├── components/
-│   └── PortfolioPage.tsx # Wires the schema → Engine renderer
+│   ├── PortfolioPage.tsx    # Wires the schema → Engine renderer; hosts the visual editor
+│   └── BlockEditSidebar.tsx # Auto-generated prop editor for the selected block
 └── data/
     └── portfolio.schema.ts  # Single source of truth for all page content
 ```
@@ -29,6 +31,18 @@ src/
 ### How it works
 
 All page content is declared in `src/data/portfolio.schema.ts` as a `PageSchema` object (a list of typed blocks). The `Engine` from `@personal-website/engine` reads that schema and renders the matching registered block component for each entry. Nothing is hardcoded in JSX — to update site content, edit the schema file only.
+
+### Visual Editor
+
+`PortfolioPage` ships a built-in **visual editing mode** (toggle with the ✏️ button). While active:
+
+- **Drag & drop** — reorder blocks with `@dnd-kit/sortable`; a `DragOverlay` renders a live preview of the dragged block.
+- **Visibility toggle** — hide/show individual blocks without removing them.
+- **Add block** — insert any registered block type from the block catalog (`BLOCK_CATALOG`).
+- **Remove block** — delete a block from the page.
+- **Inline prop editing** — click a block to open `BlockEditSidebar`, which auto-generates form fields from the block's props shape (strings, booleans, numbers, arrays, and nested objects are all handled).
+
+`BlockEditSidebar` is intentionally decoupled from the block components — block components stay 100% pure with no edit logic inside them.
 
 ## Getting Started
 
