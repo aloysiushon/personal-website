@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect, startTransition } from "react";
 import {
   DndContext,
   closestCenter,
@@ -80,7 +80,7 @@ function SortableBlock({ block, isEditing }: SortableBlockProps) {
             boxShadow: "0 4px 16px rgba(124,58,237,0.4)",
           }}
         >
-          ⠿ drag
+          ⠿ Drag
         </div>
       )}
       <Renderer {...block.props} />
@@ -88,11 +88,38 @@ function SortableBlock({ block, isEditing }: SortableBlockProps) {
   );
 }
 
+const STORAGE_KEY = "portfolio-block-order";
+
+/** Re-order portfolioSchema blocks to match a saved ID order. */
+function applyStoredOrder(savedIds: string[]): PageSchema {
+  const blockMap = new Map(portfolioSchema.blocks.map((b) => [b.id, b]));
+  const ordered = savedIds.flatMap((id) => (blockMap.has(id) ? [blockMap.get(id)!] : []));
+  // Append any new blocks not present in the saved order
+  const savedSet = new Set(savedIds);
+  const extra = portfolioSchema.blocks.filter((b) => !savedSet.has(b.id));
+  return { ...portfolioSchema, blocks: [...ordered, ...extra] };
+}
+
 // ── Main PortfolioPage ──────────────────────────────────────
 export function PortfolioPage(): React.ReactElement {
+  // Always start with portfolioSchema so server & first client render match (avoids hydration mismatch).
+  // Then, after mount, apply any saved order from localStorage.
   const [schema, setSchema] = useState<PageSchema>(portfolioSchema);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+
+  // Rehydrate saved block order after mount (client-only)
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const ids: string[] = JSON.parse(saved);
+        startTransition(() => setSchema(applyStoredOrder(ids)));
+      }
+    } catch {
+      // ignore malformed data
+    }
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -110,7 +137,13 @@ export function PortfolioPage(): React.ReactElement {
     setSchema((prev) => {
       const oldIndex = prev.blocks.findIndex((b) => b.id === active.id);
       const newIndex = prev.blocks.findIndex((b) => b.id === over.id);
-      return { ...prev, blocks: arrayMove(prev.blocks, oldIndex, newIndex) };
+      const next = { ...prev, blocks: arrayMove(prev.blocks, oldIndex, newIndex) };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next.blocks.map((b) => b.id)));
+      } catch {
+        // ignore storage errors (e.g. private mode quota)
+      }
+      return next;
     });
   }, []);
 
@@ -156,7 +189,10 @@ export function PortfolioPage(): React.ReactElement {
         </span>
         <div style={{ display: "flex", gap: 10 }}>
           <button
-            onClick={() => setSchema(portfolioSchema)}
+            onClick={() => {
+              localStorage.removeItem(STORAGE_KEY);
+              setSchema(portfolioSchema);
+            }}
             style={{
               background: "transparent", border: "1px solid rgba(100,116,139,0.4)",
               color: "#94a3b8", padding: "6px 14px", borderRadius: 8,
