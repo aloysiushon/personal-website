@@ -9,6 +9,7 @@ This system builds a:
 - Drag & drop personal website builder
 - Block-based UI engine
 - Portfolio generator for students, jobseekers, developers
+- AI-powered chat assistant for portfolio visitors (OpenRouter, opt-in via env var)
 
 Everything is generated from:
 

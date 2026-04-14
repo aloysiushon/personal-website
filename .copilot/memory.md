@@ -48,6 +48,7 @@ Never break block-based architecture.
 - **pnpm workspaces** (monorepo)
 - **@dnd-kit/core + @dnd-kit/sortable** (drag & drop)
 - **Storybook 8** (React + Vite — `packages/ui/.storybook/`, port 6006)
+- **OpenRouter API** (`openai/gpt-oss-120b`) — AI chat, server-side only via `POST /api/chat`
 
 ### Monorepo Packages
 
@@ -57,6 +58,7 @@ Never break block-based architecture.
 | `@personal-website/ui`     | ✅ Built — Button, Badge, SectionWrapper + Storybook stories |
 | `@personal-website/blocks` | ✅ Built — 7 blocks registered + Storybook stories for all   |
 | `apps/web`                 | ✅ Running at localhost:3000                                 |
+| `apps/web` AI Chat         | ✅ `ChatBot` widget + `POST /api/chat` route (OpenRouter)    |
 
 ### Registered Blocks
 
@@ -89,6 +91,7 @@ Never break block-based architecture.
 - **All story files must begin with `import React from "react"`** (JSX transform not auto-injected in story context)
 - **Use `render:` functions** (not `args`) whenever JSX children are passed
 - **All components use inline styles** — Tailwind is NOT loaded in Storybook
+- **Exception**: `apps/web` components (e.g. `ChatBot`) use **SCSS Modules**, not inline styles. Their stories import the component via relative path from `packages/blocks/src/`
 
 ### Stories Inventory
 
@@ -104,6 +107,7 @@ Never break block-based architecture.
 | `packages/blocks/src/SkillsBlock.stories.tsx`   | Default, SingleCategory, AllColors                                   |
 | `packages/blocks/src/ContactBlock.stories.tsx`  | Default, EmailOnly, EmailAndGitHub, AllSocialLinks                   |
 | `packages/blocks/src/FooterBlock.stories.tsx`   | Default, WithCustomYear, ShortName                                   |
+| `packages/blocks/src/ChatBot.stories.tsx`       | Enabled, Disabled, SlowResponse, ApiError, NetworkError              |
 
 ### Styling Approach
 
@@ -116,6 +120,17 @@ Never break block-based architecture.
 
 - All page content lives in `apps/web/src/data/portfolio.schema.ts` as a `PageSchema` JSON object.
 - To update personal info: **edit only `portfolio.schema.ts`** — no code changes needed elsewhere.
+- The AI chat system prompt is **auto-generated at request time** from this same schema — skills, bio, projects and contact are always in sync.
+
+### AI Chat Bot
+
+- Component: `apps/web/src/components/ChatBot.tsx` + `ChatBot.module.scss`
+- API route: `apps/web/src/app/api/chat/route.ts` → `POST /api/chat`
+- Model: `openai/gpt-oss-120b` via OpenRouter (`https://openrouter.ai/api/v1/chat/completions`)
+- **Opt-in**: `page.tsx` reads `process.env.OPENROUTER_API_KEY` server-side and passes `enabled` prop to `<ChatBot>`. No key → widget is not rendered.
+- API key stored in `apps/web/.env.local` (gitignored). **Never use `NEXT_PUBLIC_` prefix** — this key must stay server-side only.
+- The `ChatBot` component is split into a private `ChatBotWidget` (all hooks) + a public `ChatBot` wrapper that returns `null` when `enabled={false}`, respecting Rules of Hooks.
+- Storybook story: `packages/blocks/src/ChatBot.stories.tsx` (imports component via relative path; stubs `globalThis.fetch` per-story via `beforeEach`)
 
 ### Known Design Decisions
 

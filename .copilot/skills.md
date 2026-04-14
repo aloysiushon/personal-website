@@ -80,10 +80,11 @@
   };
   ```
 
-- Title convention: `"UI/<ComponentName>"` for atoms, `"Blocks/<BlockName>"` for blocks
+- Title convention: `"UI/<ComponentName>"` for atoms, `"Blocks/<BlockName>"` for blocks, `"Web/<ComponentName>"` for `apps/web`-specific components
 - Must include: `Default` story + one story per meaningful variant + edge cases
 - Run Storybook: `pnpm storybook` (from workspace root) → opens on port **6006**
 - Storybook config: `packages/ui/.storybook/` — scans both `packages/ui` and `packages/blocks`
+- **`apps/web` component stories** (e.g. `ChatBot`) live in `packages/blocks/src/` and import the component via relative path (`../../../apps/web/src/components/...`). Use `beforeEach` to stub `globalThis.fetch` for components that call API routes.
 
 ---
 

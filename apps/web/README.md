@@ -18,14 +18,19 @@ The Next.js 16 app that renders the personal portfolio. It is part of the `perso
 ```
 src/
 ├── app/
-│   ├── layout.tsx           # Root layout (imports global CSS & fonts)
-│   ├── page.tsx             # Entry point — renders <PortfolioPage />
-│   └── globals.css          # Global styles
+│   ├── api/
+│   │   └── chat/
+│   │       └── route.ts         # POST /api/chat — proxies to OpenRouter AI
+│   ├── layout.tsx               # Root layout (imports global CSS & fonts)
+│   ├── page.tsx                 # Entry point — renders <PortfolioPage /> + <ChatBot />
+│   └── globals.css              # Global styles
 ├── components/
-│   ├── PortfolioPage.tsx    # Wires the schema → Engine renderer; hosts the visual editor
-│   └── BlockEditSidebar.tsx # Auto-generated prop editor for the selected block
+│   ├── PortfolioPage.tsx        # Wires the schema → Engine renderer; hosts the visual editor
+│   ├── BlockEditSidebar.tsx     # Auto-generated prop editor for the selected block
+│   ├── ChatBot.tsx              # Floating AI chat widget (optional — gated by API key)
+│   └── ChatBot.module.scss      # Styles for the chat widget
 └── data/
-    └── portfolio.schema.ts  # Single source of truth for all page content
+    └── portfolio.schema.ts      # Single source of truth for all page content
 ```
 
 ### How it works
@@ -43,6 +48,26 @@ All page content is declared in `src/data/portfolio.schema.ts` as a `PageSchema`
 - **Inline prop editing** — click a block to open `BlockEditSidebar`, which auto-generates form fields from the block's props shape (strings, booleans, numbers, arrays, and nested objects are all handled).
 
 `BlockEditSidebar` is intentionally decoupled from the block components — block components stay 100% pure with no edit logic inside them.
+
+### AI Chat Bot
+
+`ChatBot` is a floating AI assistant widget (bottom-right corner, 💬 button) that answers visitor questions about the portfolio owner's background, skills, and projects.
+
+- Powered by **[OpenRouter](https://openrouter.ai)** using model `openai/gpt-oss-120b`
+- The system prompt is **auto-built at request time** from the live `portfolioSchema` — skills, projects, bio, and contact are all injected automatically
+- The widget is **opt-in**: it only renders when `OPENROUTER_API_KEY` is set in the environment
+- The API key is read **server-side only** in `page.tsx` — it is never exposed to the client bundle
+- The API route lives at `POST /api/chat` (`src/app/api/chat/route.ts`)
+
+#### Environment Setup
+
+Create `apps/web/.env.local` (gitignored) with:
+
+```env
+OPENROUTER_API_KEY=sk-or-v1-...
+```
+
+Without this key the chat button is simply not rendered — no errors, no broken UI.
 
 ## Getting Started
 
@@ -69,12 +94,21 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 | `pnpm start` | Start the production server          |
 | `pnpm lint`  | Run ESLint                           |
 
+## Environment Variables
+
+| Variable             | Required | Description                                                                     |
+| -------------------- | -------- | ------------------------------------------------------------------------------- |
+| `OPENROUTER_API_KEY` | Optional | Enables the AI chat widget. Omit to hide the widget entirely. Server-side only. |
+
+Create `apps/web/.env.local` to set these locally. This file is gitignored.
+
 ## Styling Guidelines
 
-- Use **Tailwind utility classes** for layout, spacing, typography, and responsive utilities.
+- Use **Tailwind utility classes** for layout, spacing, typography, and responsive utilities inside `apps/web/src/`.
 - Use **SCSS Modules** (`.module.scss`, BEM-like naming) for component-specific styles, colour variants, gradients, and animations.
-- **No** inline `style={{}}` props.
+- **No** inline `style={{}}` props inside `apps/web/` — use SCSS Modules instead.
 - Every new component must have a corresponding `.module.scss` file.
+- Components in `packages/` must use **inline `style={{}}` only** (Tailwind is not loaded in Storybook).
 
 ## Monorepo Commands (from root)
 

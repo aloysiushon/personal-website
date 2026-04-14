@@ -54,11 +54,13 @@ Every UI component and block MUST have a Storybook story file:
 
 - `packages/ui/src/<Component>.stories.tsx` — for UI atoms
 - `packages/blocks/src/<Block>.stories.tsx` — for blocks
+- `packages/blocks/src/<Name>.stories.tsx` — for `apps/web`-specific components (import via relative path; stub `globalThis.fetch` in `beforeEach` for API-calling components)
 - Stories MUST start with `import React from "react"` — always, no exceptions
 - Stories must use `Meta` and `StoryObj` types from `@storybook/react`
 - Stories must include `tags: ["autodocs"]` for auto-generated docs
 - Use `render:` functions (not `args`) whenever JSX children are passed
 - Stories must include at least one story per meaningful prop combination
+- Title convention: `"UI/X"` for atoms · `"Blocks/X"` for blocks · `"Web/X"` for `apps/web` components
 - A PR or change that adds/modifies a component without a story is **REJECTED**
 
 ---

@@ -125,6 +125,26 @@ IMPLEMENTATION:
 - **Known rule**: always `import React from "react"` in story files
 - **Known rule**: use `render:` not `args` when JSX children are involved
 - **Known rule**: `SectionWrapper` uses inline styles (Tailwind removed)
+- **Known rule**: `apps/web` component stories live in `packages/blocks/src/` and import via relative path
+
+---
+
+## TASK: add-ai-chat ✅ COMPLETED
+
+STATUS: Implemented — AI chat widget powered by OpenRouter.
+
+IMPLEMENTATION:
+
+- `apps/web/src/app/api/chat/route.ts` — `POST /api/chat` Next.js API route
+  - Reads `OPENROUTER_API_KEY` from server-side env; returns `503` if missing
+  - Builds system prompt dynamically from `portfolioSchema` (hero, about, skills, projects, contact)
+  - Calls OpenRouter with model `openai/gpt-oss-120b`, `max_tokens: 512`, `temperature: 0.7`
+- `apps/web/src/components/ChatBot.tsx` — floating chat widget (`enabled` prop gates rendering)
+  - Private `ChatBotWidget` holds all hooks; public `ChatBot` wrapper returns `null` when disabled
+- `apps/web/src/components/ChatBot.module.scss` — SCSS Module styles
+- `apps/web/src/app/page.tsx` — passes `enabled={Boolean(process.env.OPENROUTER_API_KEY)}` server-side
+- `apps/web/.env.local` — API key (gitignored; never `NEXT_PUBLIC_`)
+- `packages/blocks/src/ChatBot.stories.tsx` — 5 stories; fetch stubbed via `beforeEach`
 
 ---
 
