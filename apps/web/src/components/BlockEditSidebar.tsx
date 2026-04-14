@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from "react";
 import type { Block } from "@personal-website/engine";
+import styles from "./BlockEditSidebar.module.scss";
 
 // ============================================================
 // BLOCK EDIT SIDEBAR
 // Auto-generates form fields from a block's props shape.
 // Block components stay 100% pure — no edit logic inside them.
+// Styling: Tailwind utility classes + SCSS modules — no inline styles.
 // ============================================================
 
 interface BlockEditSidebarProps {
@@ -14,25 +16,6 @@ interface BlockEditSidebarProps {
   readonly onClose: () => void;
   readonly onChange: (id: string, newProps: Record<string, unknown>) => void;
 }
-
-// ── Shared input styles ─────────────────────────────────────
-const inputStyle: React.CSSProperties = {
-  width: "100%", background: "rgba(30,41,59,0.8)",
-  border: "1px solid rgba(100,116,139,0.35)", borderRadius: 6,
-  color: "#e2e8f0", fontSize: 13, padding: "6px 10px",
-  outline: "none", boxSizing: "border-box",
-  fontFamily: "inherit",
-};
-
-const labelStyle: React.CSSProperties = {
-  display: "block", color: "#94a3b8", fontSize: 11,
-  fontWeight: 600, letterSpacing: "0.06em",
-  textTransform: "uppercase", marginBottom: 4,
-};
-
-const fieldRowStyle: React.CSSProperties = {
-  marginBottom: 14,
-};
 
 // ── Field renderers ─────────────────────────────────────────
 
@@ -68,21 +51,21 @@ function StringField({ path, value, onChange }: FieldProps) {
   const label = path.split(".").pop() ?? path;
 
   return (
-    <div style={fieldRowStyle}>
-      <label style={labelStyle}>{label}</label>
+    <div className={styles.field}>
+      <label className={styles.label}>{label}</label>
       {isLong ? (
         <textarea
           value={strVal}
           rows={3}
           onChange={(e) => onChange(path, e.target.value)}
-          style={{ ...inputStyle, resize: "vertical", lineHeight: 1.5 }}
+          className={`${styles.input} ${styles["input--textarea"]}`}
         />
       ) : (
         <input
           type="text"
           value={strVal}
           onChange={(e) => onChange(path, e.target.value)}
-          style={inputStyle}
+          className={styles.input}
         />
       )}
     </div>
@@ -93,13 +76,13 @@ function StringField({ path, value, onChange }: FieldProps) {
 function NumberField({ path, value, onChange }: FieldProps) {
   const label = path.split(".").pop() ?? path;
   return (
-    <div style={fieldRowStyle}>
-      <label style={labelStyle}>{label}</label>
+    <div className={styles.field}>
+      <label className={styles.label}>{label}</label>
       <input
         type="number"
         value={Number(value)}
         onChange={(e) => onChange(path, Number(e.target.value))}
-        style={{ ...inputStyle, width: 120 }}
+        className={`${styles.input} ${styles["input--number"]}`}
       />
     </div>
   );
@@ -111,10 +94,10 @@ function StringArrayField({ path, value, onChange }: FieldProps) {
   const label = path.split(".").pop() ?? path;
 
   return (
-    <div style={fieldRowStyle}>
-      <label style={labelStyle}>{label}</label>
+    <div className={styles.field}>
+      <label className={styles.label}>{label}</label>
       {arr.map((item, i) => (
-        <div key={`str-${path}-${i}`} style={{ display: "flex", gap: 6, marginBottom: 6 }}>
+        <div key={`str-${path}-${i}`} className={styles.arrayItem}>
           <input
             type="text"
             value={item}
@@ -123,25 +106,17 @@ function StringArrayField({ path, value, onChange }: FieldProps) {
               next[i] = e.target.value;
               onChange(path, next);
             }}
-            style={{ ...inputStyle, flex: 1 }}
+            className={`${styles.input} grow`}
           />
           <button
             onClick={() => onChange(path, arr.filter((_, j) => j !== i))}
-            style={{
-              background: "rgba(239,68,68,0.2)", border: "1px solid rgba(239,68,68,0.4)",
-              color: "#f87171", borderRadius: 6, padding: "0 8px",
-              cursor: "pointer", fontSize: 14, flexShrink: 0,
-            }}
+            className={styles.arrayItem__remove}
           >✕</button>
         </div>
       ))}
       <button
         onClick={() => onChange(path, [...arr, ""])}
-        style={{
-          background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)",
-          color: "#34d399", borderRadius: 6, padding: "4px 10px",
-          cursor: "pointer", fontSize: 12, fontWeight: 600,
-        }}
+        className={styles.addBtn}
       >+ Add</button>
     </div>
   );
@@ -153,15 +128,27 @@ function LinkObjectField({ path, value, onChange }: FieldProps) {
   const label = path.split(".").pop() ?? path;
 
   return (
-    <div style={{ ...fieldRowStyle, background: "rgba(124,58,237,0.07)", borderRadius: 8, padding: "10px 12px", border: "1px solid rgba(124,58,237,0.15)" }}>
-      <p style={{ ...labelStyle, color: "#a78bfa", marginBottom: 8 }}>📎 {label}</p>
-      <div style={fieldRowStyle}>
-        <label htmlFor={`${path}-label`} style={labelStyle}>label</label>
-        <input id={`${path}-label`} type="text" value={obj.label ?? ""} onChange={(e) => onChange(path, { ...obj, label: e.target.value })} style={inputStyle} />
+    <div className={styles.linkBox}>
+      <span className={styles.linkBox__title}>📎 {label}</span>
+      <div className={styles.field}>
+        <label htmlFor={`${path}-label`} className={styles.label}>label</label>
+        <input
+          id={`${path}-label`}
+          type="text"
+          value={obj.label ?? ""}
+          onChange={(e) => onChange(path, { ...obj, label: e.target.value })}
+          className={styles.input}
+        />
       </div>
-      <div style={{ ...fieldRowStyle, marginBottom: 0 }}>
-        <label htmlFor={`${path}-href`} style={labelStyle}>href</label>
-        <input id={`${path}-href`} type="text" value={obj.href ?? ""} onChange={(e) => onChange(path, { ...obj, href: e.target.value })} style={inputStyle} />
+      <div className={styles.field}>
+        <label htmlFor={`${path}-href`} className={styles.label}>href</label>
+        <input
+          id={`${path}-href`}
+          type="text"
+          value={obj.href ?? ""}
+          onChange={(e) => onChange(path, { ...obj, href: e.target.value })}
+          className={styles.input}
+        />
       </div>
     </div>
   );
@@ -175,56 +162,62 @@ interface ObjectArrayFieldProps {
   readonly onChange: (path: string, value: unknown) => void;
 }
 
+// Module-level counter — incremented only in event handlers, never during render.
+let _keySeq = 0;
+const newKey = () => { _keySeq += 1; return `oak-${_keySeq}`; };
+
 function ObjectArrayField({ path, value, itemTemplate, onChange }: ObjectArrayFieldProps) {
   const arr = (value as Record<string, unknown>[]) ?? [];
   const label = path.split(".").pop() ?? path;
   const [expanded, setExpanded] = useState<number | null>(null);
+  // One stable key per item. Initial keys are created once; updates happen
+  // only inside event handlers — never during render.
+  const [keys, setKeys] = useState<string[]>(() => arr.map(newKey));
+
+  function handleAdd() {
+    const next = [...arr, { ...itemTemplate }];
+    onChange(path, next);
+    setKeys((prev) => [...prev, newKey()]);
+    setExpanded(next.length - 1);
+  }
+
+  function handleRemove(i: number) {
+    onChange(path, arr.filter((_, j) => j !== i));
+    setKeys((prev) => prev.filter((_, j) => j !== i));
+    setExpanded((prev) => (prev === i ? null : prev));
+  }
 
   return (
-    <div style={fieldRowStyle}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-        <label style={labelStyle}>{label}</label>
-        <button
-          onClick={() => {
-            const next = [...arr, { ...itemTemplate }];
-            onChange(path, next);
-            setExpanded(next.length - 1);
-          }}
-          style={{
-            background: "rgba(16,185,129,0.1)", border: "1px solid rgba(16,185,129,0.3)",
-            color: "#34d399", borderRadius: 6, padding: "3px 10px",
-            cursor: "pointer", fontSize: 12, fontWeight: 600,
-          }}
-        >+ Add</button>
+    <div className={styles.field}>
+      <div className={styles.objArray__header}>
+        <label className={styles.label}>{label}</label>
+        <button onClick={handleAdd} className={styles.objArray__addBtn}>+ Add</button>
       </div>
 
       {arr.map((item, i) => {
         const isOpen = expanded === i;
         const title = (item.title ?? item.label ?? item.category ?? `Item ${i + 1}`) as string;
+        const stableKey = keys[i] ?? `${path}-${i}`;
         return (
-          // stable key: use title/label/category when available, fallback to index
-          <div key={(item.title ?? item.label ?? item.category ?? i) as string} style={{ border: "1px solid rgba(100,116,139,0.2)", borderRadius: 8, marginBottom: 8, overflow: "hidden" }}>
+          <div key={stableKey} className={styles.objArray__item}>
             {/* Item header */}
-            <div style={{ display: "flex", alignItems: "center", background: "rgba(30,41,59,0.6)", padding: "7px 10px", gap: 8 }}>
+            <div className={styles.objArray__itemHeader}>
               <button
                 onClick={() => setExpanded(isOpen ? null : i)}
-                style={{ flex: 1, background: "none", border: "none", color: "#e2e8f0", fontSize: 12, fontWeight: 500, cursor: "pointer", textAlign: "left", display: "flex", alignItems: "center", gap: 6 }}
+                className={styles.objArray__expand}
               >
-                <span style={{ color: "#64748b", fontSize: 10 }}>{isOpen ? "▼" : "▶"}</span>
+                <span className={styles.objArray__caret}>{isOpen ? "▼" : "▶"}</span>
                 {title}
               </button>
               <button
-                onClick={() => {
-                  onChange(path, arr.filter((_, j) => j !== i));
-                  if (expanded === i) setExpanded(null);
-                }}
-                style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", fontSize: 14, padding: "0 2px" }}
+                onClick={() => handleRemove(i)}
+                className={styles.objArray__remove}
               >✕</button>
             </div>
 
             {/* Item fields */}
             {isOpen && (
-              <div style={{ padding: "10px 12px" }}>
+              <div className={styles.objArray__fields}>
                 {Object.entries(item).map(([key, val]) => {
                   const subPath = `${path}.${i}.${key}`;
                   if (Array.isArray(val) && val.every((v) => typeof v === "string")) {
@@ -335,42 +328,21 @@ export function BlockEditSidebar({ block, onClose, onChange }: BlockEditSidebarP
     onChange(blockId, draft);
   }
 
-  const sidebarWidth = 340;
-
   return (
-    <div style={{
-      position: "fixed", top: 112, right: 0, bottom: 0, width: sidebarWidth,
-      zIndex: 9000, background: "rgba(8,14,28,0.97)",
-      borderLeft: "1px solid rgba(124,58,237,0.25)",
-      backdropFilter: "blur(16px)",
-      display: "flex", flexDirection: "column",
-      boxShadow: "-8px 0 40px rgba(0,0,0,0.4)",
-    }}>
+    <div className={styles.sidebar}>
       {/* Header */}
-      <div style={{
-        padding: "14px 16px", borderBottom: "1px solid rgba(124,58,237,0.2)",
-        display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0,
-      }}>
+      <div className={styles.header}>
         <div>
-          <p style={{ margin: 0, color: "#a78bfa", fontWeight: 700, fontSize: 14 }}>
+          <p className={styles.header__title}>
             {BLOCK_LABELS[block.type] ?? block.type}
           </p>
-          <p style={{ margin: 0, color: "#475569", fontSize: 11, marginTop: 2 }}>
-            Edit content
-          </p>
+          <p className={styles.header__subtitle}>Edit content</p>
         </div>
-        <button
-          onClick={onClose}
-          style={{
-            background: "rgba(100,116,139,0.15)", border: "1px solid rgba(100,116,139,0.25)",
-            color: "#94a3b8", borderRadius: 8, width: 32, height: 32,
-            cursor: "pointer", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "center",
-          }}
-        >✕</button>
+        <button onClick={onClose} className={styles.header__close}>✕</button>
       </div>
 
       {/* Scrollable fields */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "16px", minHeight: 0 }}>
+      <div className={styles.fields}>
         {Object.entries(draft).map(([key, value]) => (
           <PropField
             key={key}
@@ -381,30 +353,15 @@ export function BlockEditSidebar({ block, onClose, onChange }: BlockEditSidebarP
         ))}
       </div>
 
-      {/* Footer — Apply button */}
-      <div style={{
-        padding: "12px 16px", borderTop: "1px solid rgba(124,58,237,0.2)", flexShrink: 0,
-        display: "flex", gap: 8,
-      }}>
-        <button
-          onClick={handleApply}
-          style={{
-            flex: 1, background: "linear-gradient(135deg, #7c3aed, #6d28d9)",
-            border: "none", color: "#fff", borderRadius: 8,
-            padding: "9px 0", fontSize: 13, fontWeight: 700, cursor: "pointer",
-            boxShadow: "0 4px 14px rgba(124,58,237,0.4)",
-          }}
-        >
+      {/* Footer — Apply / Discard */}
+      <div className={styles.footer}>
+        <button onClick={handleApply} className={styles.footer__apply}>
           ✓ Apply Changes
         </button>
         <button
           onClick={() => block && setDraft(block.props)}
           title="Discard changes"
-          style={{
-            background: "rgba(100,116,139,0.1)", border: "1px solid rgba(100,116,139,0.25)",
-            color: "#94a3b8", borderRadius: 8, padding: "9px 12px",
-            fontSize: 13, fontWeight: 600, cursor: "pointer",
-          }}
+          className={styles.footer__discard}
         >↺</button>
       </div>
     </div>

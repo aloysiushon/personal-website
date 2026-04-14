@@ -12,10 +12,11 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 - **Use Tailwind utility classes + SCSS modules (`.module.scss`) for ALL styling** — no inline `style={{}}` props
 - Tailwind classes handle layout, spacing, typography, and responsive utilities
-- SCSS modules (BEM-like naming, e.g. `styles.card`, `styles['card--active']`) handle component-specific styles, color variants, gradients, animations, and hover/focus effects
-- Every new component or page section must have a corresponding `.module.scss` file
+- SCSS modules (BEM-like naming, e.g. `styles.card`, `styles['card--active']`) handle component-specific styles, color variants, gradients, animations, hover/focus effects, and any CSS that Tailwind cannot express cleanly
+- Every new component or page section must have a corresponding `.module.scss` file — this applies to both `packages/` components **and** `apps/web/src/components/`
 - SCSS type declarations are in `scss.d.ts` — declare `*.module.scss` modules there if adding a new package
 - `tailwind.css` (`@import "tailwindcss"`) is the global entry point; import it once in the app's root layout or Storybook preview
+- **No `style={{}}` props are allowed anywhere** — convert any existing inline styles to the matching `.module.scss` class
 <!-- END:styling-rules -->
 
 <!-- BEGIN:architecture-rules -->
@@ -34,6 +35,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 - The visual editor lives entirely in `PortfolioPage.tsx`; block components have zero awareness of it
 - Drag-and-drop reordering uses `@dnd-kit/sortable` with a `DragOverlay` for live previews — do not use any other DnD library
 - `BlockEditSidebar` auto-generates form fields by reflecting on a block's `props` shape at runtime; no manual field declarations per block type
+- `BlockEditSidebar` is styled via `BlockEditSidebar.module.scss` (Tailwind + SCSS) — **no inline styles** in that component
+- `PortfolioPage` is styled via `PortfolioPage.module.scss` (Tailwind + SCSS) — **no inline styles** except the `@dnd-kit` runtime values (`transform`, `transition`, `opacity`, `outline`, `filter`, `zIndex`) which must remain as `style={{}}` because they are computed JS values injected by the DnD library
 - Editor state (block order, visibility, selected block) is local React state — do not reach for a global store
 
 <!-- END:architecture-rules -->

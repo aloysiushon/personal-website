@@ -23,6 +23,7 @@ import type { Block, PageSchema } from "@personal-website/engine";
 import { registerAllBlocks, HeroBlock, AboutBlock, SkillsBlock, ProjectsBlock, ContactBlock, NavbarBlock, FooterBlock } from "@personal-website/blocks";
 import { portfolioSchema } from "@/data/portfolio.schema";
 import { BlockEditSidebar } from "@/components/BlockEditSidebar";
+import styles from "./PortfolioPage.module.scss";
 
 // Register all blocks once on module load
 registerAllBlocks();
@@ -68,17 +69,17 @@ function SortableBlock({ block, isEditing, isHidden, isSelected, onRemove, onTog
     id: block.id,
   });
 
-  const blockOpacity = isDragging || isHidden ? 0.35 : 1;
-  let blockOutline = "none";
-  if (isDragging)   blockOutline = "2px dashed #7c3aed";
-  else if (isSelected) blockOutline = "2px solid #7c3aed";
-  else if (isEditing)  blockOutline = "1px dashed rgba(124,58,237,0.25)";
+  // These values come from @dnd-kit at runtime — they must stay as inline style.
+  let outline = "none";
+  if (isDragging) outline = "2px dashed #7c3aed";
+  else if (isSelected) outline = "2px solid #7c3aed";
+  else if (isEditing) outline = "1px dashed rgba(124,58,237,0.25)";
 
-  const style: React.CSSProperties = {
+  const dndStyle: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: blockOpacity,
-    outline: blockOutline,
+    opacity: isDragging || isHidden ? 0.35 : 1,
+    outline,
     position: "relative",
     zIndex: isDragging ? 0 : "auto",
     filter: isHidden ? "grayscale(0.6)" : "none",
@@ -88,93 +89,43 @@ function SortableBlock({ block, isEditing, isHidden, isSelected, onRemove, onTog
   if (!Renderer) return null;
 
   return (
-    <div ref={setNodeRef} style={style}>
+    <div ref={setNodeRef} style={dndStyle}>
       {isEditing && (
-        <div style={{
-          position: "absolute", top: 12, right: 12, zIndex: 100,
-          display: "flex", alignItems: "center", gap: 6,
-        }}>
-          {/* Edit content */}
+        <div className={styles.blockControls}>
           <button
             onClick={() => onSelect(block.id)}
             title="Edit block content"
-            style={{
-              background: isSelected ? "rgba(124,58,237,0.9)" : "rgba(30,41,59,0.85)",
-              color: "#fff", border: "1px solid rgba(124,58,237,0.4)",
-              padding: "5px 10px", borderRadius: 8,
-              fontSize: 13, fontWeight: 600, cursor: "pointer",
-              backdropFilter: "blur(8px)",
-              boxShadow: "0 2px 8px rgba(124,58,237,0.3)",
-            }}
+            className={`${styles.blockBtn} ${isSelected ? styles["blockBtn--editActive"] : styles["blockBtn--edit"]}`}
           >
             ✏️ Edit
           </button>
           <button
             onClick={() => onToggleVisibility(block.id)}
             title={isHidden ? "Show block" : "Hide block"}
-            style={{
-              background: isHidden ? "rgba(100,116,139,0.85)" : "rgba(30,41,59,0.85)",
-              color: "#fff", border: "1px solid rgba(255,255,255,0.15)",
-              padding: "5px 10px", borderRadius: 8,
-              fontSize: 13, fontWeight: 600, cursor: "pointer",
-              backdropFilter: "blur(8px)",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-            }}
+            className={`${styles.blockBtn} ${isHidden ? styles["blockBtn--hidden"] : styles["blockBtn--visibility"]}`}
           >
             {isHidden ? "👁️ Show" : "🙈 Hide"}
           </button>
-
-          {/* Remove block */}
           <button
             onClick={() => onRemove(block.id)}
             title="Remove block"
-            style={{
-              background: "rgba(239,68,68,0.85)", color: "#fff",
-              border: "1px solid rgba(255,255,255,0.15)",
-              padding: "5px 10px", borderRadius: 8,
-              fontSize: 13, fontWeight: 600, cursor: "pointer",
-              backdropFilter: "blur(8px)",
-              boxShadow: "0 2px 8px rgba(239,68,68,0.3)",
-            }}
+            className={`${styles.blockBtn} ${styles["blockBtn--remove"]}`}
           >
             ✕ Remove
           </button>
-
-          {/* Drag handle */}
           <div
             {...attributes}
             {...listeners}
-            style={{
-              background: "rgba(124,58,237,0.85)", color: "#fff",
-              padding: "5px 12px", borderRadius: 8,
-              fontSize: 13, fontWeight: 600, cursor: "grab",
-              display: "flex", alignItems: "center", gap: 6,
-              backdropFilter: "blur(8px)",
-              userSelect: "none",
-              boxShadow: "0 2px 8px rgba(124,58,237,0.4)",
-              border: "1px solid rgba(255,255,255,0.15)",
-            }}
+            className={styles.blockDragHandle}
           >
             ⠿ Drag
           </div>
         </div>
       )}
 
-      {/* Hidden overlay label */}
       {isEditing && isHidden && (
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 50,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          background: "rgba(3,7,18,0.45)", backdropFilter: "blur(2px)",
-          pointerEvents: "none",
-        }}>
-          <span style={{
-            background: "rgba(100,116,139,0.9)", color: "#f1f5f9",
-            padding: "8px 20px", borderRadius: 8, fontSize: 14, fontWeight: 700,
-            letterSpacing: "0.05em",
-          }}>
-            HIDDEN
-          </span>
+        <div className={styles.hiddenOverlay}>
+          <span className={styles.hiddenLabel}>HIDDEN</span>
         </div>
       )}
 
@@ -206,52 +157,29 @@ function AddBlockMenu({ existingTypes, onAdd }: AddBlockMenuProps) {
   }, [open]);
 
   return (
-    <div ref={menuRef} style={{ position: "relative" }}>
+    <div ref={menuRef} className={styles.addMenu}>
       <button
         onClick={() => setOpen((v) => !v)}
-        style={{
-          background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.4)",
-          color: "#34d399", padding: "6px 14px", borderRadius: 8,
-          fontSize: 13, fontWeight: 600, cursor: "pointer",
-          display: "flex", alignItems: "center", gap: 6,
-        }}
+        className={styles.addMenu__trigger}
       >
         + Add Block
       </button>
 
       {open && (
-        <div style={{
-          position: "absolute", top: "calc(100% + 8px)", right: 0, zIndex: 10000,
-          background: "rgba(15,23,42,0.98)", border: "1px solid rgba(124,58,237,0.3)",
-          borderRadius: 12, padding: "8px 0", minWidth: 180,
-          boxShadow: "0 16px 48px rgba(0,0,0,0.6)",
-          backdropFilter: "blur(16px)",
-        }}>
-          <p style={{ color: "#64748b", fontSize: 11, fontWeight: 600, padding: "4px 14px 8px", margin: 0, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-            Choose a block
-          </p>
+        <div className={styles.addMenu__dropdown}>
+          <p className={styles.addMenu__heading}>Choose a block</p>
           {BLOCK_CATALOG.map(({ type, label, emoji }) => {
             const alreadyAdded = existingTypes.filter((t) => t === type).length;
             return (
               <button
                 key={type}
                 onClick={() => { onAdd(type); setOpen(false); }}
-                style={{
-                  display: "flex", width: "100%", alignItems: "center", gap: 10,
-                  background: "transparent", border: "none",
-                  color: alreadyAdded ? "#94a3b8" : "#e2e8f0",
-                  padding: "8px 14px", fontSize: 13, fontWeight: 500,
-                  cursor: "pointer", textAlign: "left",
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(124,58,237,0.15)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
+                className={`${styles.addMenu__item} ${alreadyAdded ? styles["addMenu__item--duplicate"] : styles["addMenu__item--available"]}`}
               >
-                <span style={{ fontSize: 16 }}>{emoji}</span>
+                <span className={styles.addMenu__emoji}>{emoji}</span>
                 <span>{label}</span>
                 {alreadyAdded > 0 && (
-                  <span style={{ marginLeft: "auto", fontSize: 11, color: "#64748b" }}>
-                    ×{alreadyAdded}
-                  </span>
+                  <span className={styles.addMenu__count}>×{alreadyAdded}</span>
                 )}
               </button>
             );
@@ -560,14 +488,7 @@ export function PortfolioPage(): React.ReactElement {
       <>
         <button
           onClick={() => setIsEditing(true)}
-          style={{
-            position: "fixed", bottom: 24, right: 24, zIndex: 9999,
-            background: "linear-gradient(135deg, #7c3aed, #6d28d9)",
-            color: "#fff", border: "none", borderRadius: 12,
-            padding: "12px 20px", fontSize: 14, fontWeight: 600,
-            cursor: "pointer", display: "flex", alignItems: "center", gap: 8,
-            boxShadow: "0 8px 32px rgba(124,58,237,0.5)",
-          }}
+          className={styles.editFab}
         >
           ✏️ Edit Layout
         </button>
@@ -596,41 +517,24 @@ export function PortfolioPage(): React.ReactElement {
         }
       `}</style>
 
-      {/* Editing toolbar — always on top at 0 */}
-      <div style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 9999,
-        background: "rgba(3,7,18,0.95)", backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(124,58,237,0.3)",
-        padding: "0 1.5rem",
-        height: 56, display: "flex", alignItems: "center", justifyContent: "space-between",
-      }}>
-        <span style={{ color: "#a78bfa", fontWeight: 700, fontSize: 15, display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 18 }}>⠿</span>{" "}Block Editor
-          <span style={{ color: "#475569", fontWeight: 400, fontSize: 12 }}>{"— drag • edit • hide • remove • add"}</span>
+      {/* Editing toolbar */}
+      <div className={styles.toolbar}>
+        <span className={styles.toolbar__title}>
+          <span className={styles.toolbar__icon}>⠿</span>
+          {" "}Block Editor
+          <span className={styles.toolbar__hint}>{"— drag • edit • hide • remove • add"}</span>
         </span>
-        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
+        <div className={styles.toolbar__actions}>
           <AddBlockMenu
             existingTypes={schema.blocks.map((b) => b.type)}
             onAdd={handleAddBlock}
           />
-          <button
-            onClick={handleReset}
-            style={{
-              background: "transparent", border: "1px solid rgba(100,116,139,0.4)",
-              color: "#94a3b8", padding: "6px 14px", borderRadius: 8,
-              fontSize: 13, fontWeight: 500, cursor: "pointer",
-            }}
-          >
+          <button onClick={handleReset} className={styles.toolbar__reset}>
             ↺ Reset
           </button>
           <button
             onClick={() => { setIsEditing(false); setSelectedId(null); }}
-            style={{
-              background: "linear-gradient(135deg, #7c3aed, #6d28d9)",
-              border: "none", color: "#fff", padding: "6px 16px",
-              borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: "pointer",
-              boxShadow: "0 4px 14px rgba(124,58,237,0.4)",
-            }}
+            className={styles.toolbar__done}
           >
             ✓ Done
           </button>
@@ -638,7 +542,7 @@ export function PortfolioPage(): React.ReactElement {
       </div>
 
       {/* Canvas — shrinks when sidebar is open, offset only by toolbar (56px) */}
-      <div style={{ paddingTop: 56, marginRight: sidebarOpen ? 340 : 0, transition: "margin-right 0.2s ease" }}>
+      <div className={`${styles.canvas} ${sidebarOpen ? styles["canvas--sidebarOpen"] : ""}`}>
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -665,7 +569,7 @@ export function PortfolioPage(): React.ReactElement {
 
           <DragOverlay dropAnimation={{ duration: 200 }}>
             {activeBlock && ActiveRenderer ? (
-              <div style={{ opacity: 0.9, pointerEvents: "none", transform: "scale(0.98)", boxShadow: "0 24px 80px rgba(124,58,237,0.4)" }}>
+              <div className={styles.dragOverlay}>
                 <ActiveRenderer {...activeBlock.props} />
               </div>
             ) : null}

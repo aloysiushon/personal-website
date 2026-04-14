@@ -1,0 +1,330 @@
+// ============================================================
+// PortfolioPage — visual editor chrome
+// Tailwind handles layout / spacing utilities via className.
+// SCSS handles colours, gradients, blurs, and component rules.
+// ============================================================
+
+// ── Edit-mode FAB (floating action button) ──────────────────
+.editFab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.5);
+  transition: opacity 0.15s, transform 0.15s;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+}
+
+// ── Editor toolbar ───────────────────────────────────────────
+.toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: rgba(3, 7, 18, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+  padding: 0 1.5rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.toolbar__title {
+  color: #a78bfa;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toolbar__icon {
+  font-size: 18px;
+}
+
+.toolbar__hint {
+  color: #475569;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.toolbar__actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toolbar__reset {
+  background: transparent;
+  border: 1px solid rgba(100, 116, 139, 0.4);
+  color: #94a3b8;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+
+  &:hover {
+    border-color: rgba(100, 116, 139, 0.7);
+    color: #cbd5e1;
+  }
+}
+
+.toolbar__done {
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  border: none;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// ── Canvas wrapper (shifts right when sidebar opens) ─────────
+.canvas {
+  padding-top: 56px;
+  transition: margin-right 0.2s ease;
+
+  &--sidebarOpen {
+    margin-right: 340px;
+  }
+}
+
+// ── Sortable block overlay controls ─────────────────────────
+.blockControls {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.blockBtn {
+  color: #fff;
+  border: 1px solid rgba(124, 58, 237, 0.4);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: opacity 0.15s;
+
+  &--edit {
+    background: rgba(30, 41, 59, 0.85);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &--editActive {
+    background: rgba(124, 58, 237, 0.9);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &--visibility {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(30, 41, 59, 0.85);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &--hidden {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(100, 116, 139, 0.85);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+
+  &--remove {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(239, 68, 68, 0.85);
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+
+    &:hover {
+      opacity: 0.85;
+    }
+  }
+}
+
+.blockDragHandle {
+  background: rgba(124, 58, 237, 0.85);
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  user-select: none;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+// ── Hidden-block overlay ─────────────────────────────────────
+.hiddenOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 7, 18, 0.45);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
+.hiddenLabel {
+  background: rgba(100, 116, 139, 0.9);
+  color: #f1f5f9;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+// ── DragOverlay wrapper ──────────────────────────────────────
+.dragOverlay {
+  opacity: 0.9;
+  pointer-events: none;
+  transform: scale(0.98);
+  box-shadow: 0 24px 80px rgba(124, 58, 237, 0.4);
+}
+
+// ── Add Block menu ───────────────────────────────────────────
+.addMenu {
+  position: relative;
+}
+
+.addMenu__trigger {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #34d399;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s;
+
+  &:hover {
+    background: rgba(16, 185, 129, 0.25);
+  }
+}
+
+.addMenu__dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 10000;
+  background: rgba(15, 23, 42, 0.98);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 12px;
+  padding: 8px 0;
+  min-width: 180px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.addMenu__heading {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 14px 8px;
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.addMenu__item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+
+  &--available {
+    color: #e2e8f0;
+  }
+
+  &--duplicate {
+    color: #94a3b8;
+  }
+
+  &:hover {
+    background: rgba(124, 58, 237, 0.15);
+  }
+}
+
+.addMenu__emoji {
+  font-size: 16px;
+}
+
+.addMenu__count {
+  margin-left: auto;
+  font-size: 11px;
+  color: #64748b;
+}
