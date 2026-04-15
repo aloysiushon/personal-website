@@ -77,14 +77,14 @@ importers:
         version: link:../ui
       react:
         specifier: ^18.3.1
-        version: 19.2.4
+        version: 18.3.1
     devDependencies:
       '@storybook/react':
         specifier: ^8.6.18
-        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)(typescript@5.9.3)
+        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)(typescript@5.9.3)
       '@storybook/react-vite':
         specifier: ^8.6.18
-        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@4.60.1)(storybook@8.6.18)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))
+        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(rollup@4.60.1)(storybook@8.6.18)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.28
@@ -115,7 +115,7 @@ importers:
     dependencies:
       react:
         specifier: ^18.3.1
-        version: 19.2.4
+        version: 18.3.1
     devDependencies:
       '@storybook/addon-a11y':
         specifier: ^8.6.18
@@ -128,13 +128,13 @@ importers:
         version: 8.6.14(storybook@8.6.18)
       '@storybook/blocks':
         specifier: ^8.6.14
-        version: 8.6.14(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)
+        version: 8.6.14(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)
       '@storybook/react':
         specifier: ^8.6.18
-        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)(typescript@5.9.3)
+        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)(typescript@5.9.3)
       '@storybook/react-vite':
         specifier: ^8.6.18
-        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@4.60.1)(storybook@8.6.18)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))
+        version: 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(rollup@4.60.1)(storybook@8.6.18)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))
       '@tailwindcss/vite':
         specifier: ^4.2.2
         version: 4.2.2(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))
@@ -4088,9 +4088,9 @@ snapshots:
   '@storybook/addon-docs@8.6.14(@types/react@18.3.28)(storybook@8.6.18)':
     dependencies:
       '@mdx-js/react': 3.1.1(@types/react@18.3.28)(react@19.2.4)
-      '@storybook/blocks': 8.6.14(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)
+      '@storybook/blocks': 8.6.14(react-dom@19.2.4(react@18.3.1))(react@19.2.4)(storybook@8.6.18)
       '@storybook/csf-plugin': 8.6.14(storybook@8.6.18)
-      '@storybook/react-dom-shim': 8.6.14(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)
+      '@storybook/react-dom-shim': 8.6.14(react-dom@19.2.4(react@18.3.1))(react@19.2.4)(storybook@8.6.18)
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
       storybook: 8.6.18
@@ -4154,14 +4154,23 @@ snapshots:
       memoizerific: 1.11.3
       storybook: 8.6.18
 
-  '@storybook/blocks@8.6.14(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)':
+  '@storybook/blocks@8.6.14(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)':
     dependencies:
-      '@storybook/icons': 1.6.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@storybook/icons': 1.6.0(react-dom@19.2.4(react@18.3.1))(react@18.3.1)
+      storybook: 8.6.18
+      ts-dedent: 2.2.0
+    optionalDependencies:
+      react: 18.3.1
+      react-dom: 19.2.4(react@18.3.1)
+
+  '@storybook/blocks@8.6.14(react-dom@19.2.4(react@18.3.1))(react@19.2.4)(storybook@8.6.18)':
+    dependencies:
+      '@storybook/icons': 1.6.0(react-dom@19.2.4(react@18.3.1))(react@19.2.4)
       storybook: 8.6.18
       ts-dedent: 2.2.0
     optionalDependencies:
       react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
+      react-dom: 19.2.4(react@18.3.1)
 
   '@storybook/builder-vite@8.6.18(storybook@8.6.18)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))':
     dependencies:
@@ -4206,10 +4215,15 @@ snapshots:
 
   '@storybook/global@5.0.0': {}
 
-  '@storybook/icons@1.6.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@storybook/icons@1.6.0(react-dom@19.2.4(react@18.3.1))(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
+      react-dom: 19.2.4(react@18.3.1)
+
+  '@storybook/icons@1.6.0(react-dom@19.2.4(react@18.3.1))(react@19.2.4)':
     dependencies:
       react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
+      react-dom: 19.2.4(react@18.3.1)
 
   '@storybook/instrumenter@8.6.14(storybook@8.6.18)':
     dependencies:
@@ -4231,29 +4245,29 @@ snapshots:
     dependencies:
       storybook: 8.6.18
 
-  '@storybook/react-dom-shim@8.6.14(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)':
+  '@storybook/react-dom-shim@8.6.14(react-dom@19.2.4(react@18.3.1))(react@19.2.4)(storybook@8.6.18)':
     dependencies:
       react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
+      react-dom: 19.2.4(react@18.3.1)
       storybook: 8.6.18
 
-  '@storybook/react-dom-shim@8.6.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)':
+  '@storybook/react-dom-shim@8.6.18(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)':
     dependencies:
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
+      react: 18.3.1
+      react-dom: 19.2.4(react@18.3.1)
       storybook: 8.6.18
 
-  '@storybook/react-vite@8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(rollup@4.60.1)(storybook@8.6.18)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))':
+  '@storybook/react-vite@8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(rollup@4.60.1)(storybook@8.6.18)(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))':
     dependencies:
       '@joshwooding/vite-plugin-react-docgen-typescript': 0.5.0(typescript@5.9.3)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))
       '@rollup/pluginutils': 5.3.0(rollup@4.60.1)
       '@storybook/builder-vite': 8.6.18(storybook@8.6.18)(vite@5.4.21(@types/node@20.19.39)(lightningcss@1.32.0)(sass@1.99.0))
-      '@storybook/react': 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)(typescript@5.9.3)
+      '@storybook/react': 8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)(typescript@5.9.3)
       find-up: 5.0.0
       magic-string: 0.30.21
-      react: 19.2.4
+      react: 18.3.1
       react-docgen: 7.1.1
-      react-dom: 19.2.4(react@19.2.4)
+      react-dom: 19.2.4(react@18.3.1)
       resolve: 1.22.11
       storybook: 8.6.18
       tsconfig-paths: 4.2.0
@@ -4265,16 +4279,16 @@ snapshots:
       - supports-color
       - typescript
 
-  '@storybook/react@8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)(typescript@5.9.3)':
+  '@storybook/react@8.6.18(@storybook/test@8.6.18(storybook@8.6.18))(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)(typescript@5.9.3)':
     dependencies:
       '@storybook/components': 8.6.18(storybook@8.6.18)
       '@storybook/global': 5.0.0
       '@storybook/manager-api': 8.6.18(storybook@8.6.18)
       '@storybook/preview-api': 8.6.18(storybook@8.6.18)
-      '@storybook/react-dom-shim': 8.6.18(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@8.6.18)
+      '@storybook/react-dom-shim': 8.6.18(react-dom@19.2.4(react@18.3.1))(react@18.3.1)(storybook@8.6.18)
       '@storybook/theming': 8.6.18(storybook@8.6.18)
-      react: 19.2.4
-      react-dom: 19.2.4(react@19.2.4)
+      react: 18.3.1
+      react-dom: 19.2.4(react@18.3.1)
       storybook: 8.6.18
     optionalDependencies:
       '@storybook/test': 8.6.18(storybook@8.6.18)
@@ -5151,8 +5165,8 @@ snapshots:
       '@next/eslint-plugin-next': 16.2.3
       eslint: 9.39.4(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1))
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-jsx-a11y: 6.10.2(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.39.4(jiti@2.6.1))
       eslint-plugin-react-hooks: 7.0.1(eslint@9.39.4(jiti@2.6.1))
@@ -5174,7 +5188,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.6.1)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3
@@ -5185,22 +5199,22 @@ snapshots:
       tinyglobby: 0.2.16
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.6.1)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.4(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.4(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.6.1)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -5211,7 +5225,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.4(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.10
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1)))(eslint@9.39.4(jiti@2.6.1))
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.58.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.4(jiti@2.6.1))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -6042,6 +6056,11 @@ snapshots:
       strip-indent: 4.1.1
     transitivePeerDependencies:
       - supports-color
+
+  react-dom@19.2.4(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      scheduler: 0.27.0
 
   react-dom@19.2.4(react@19.2.4):
     dependencies:
