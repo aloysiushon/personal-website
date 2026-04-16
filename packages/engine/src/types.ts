@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 
 // ============================================================
 // BLOCK TYPE DEFINITIONS
@@ -26,6 +26,6 @@ export type PageSchema = {
 
 export type BlockRenderer<P extends Record<string, unknown> = Record<string, unknown>> = (
   props: P
-) => ReactElement | null;
+) => ReactNode;
 
 export type BlockRegistry = Map<string, BlockRenderer>;
