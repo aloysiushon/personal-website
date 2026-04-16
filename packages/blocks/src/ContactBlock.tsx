@@ -19,10 +19,10 @@ export function ContactBlock({
   twitter,
 }: Readonly<ContactBlockProps>): React.ReactElement {
   const links = [
-    { label: "📧 Send Email", href: `mailto:${email}`, primary: true },
-    github   && { label: "⌥ GitHub",   href: github,   primary: false },
-    linkedin && { label: "in LinkedIn", href: linkedin, primary: false },
-    twitter  && { label: "𝕏 Twitter",  href: twitter,  primary: false },
+    { label: "Email", href: `mailto:${email}`, primary: true },
+    github   && { label: "GitHub",   href: github,   primary: false },
+    linkedin && { label: "LinkedIn", href: linkedin, primary: false },
+    twitter  && { label: "Twitter",  href: twitter,  primary: false },
   ].filter(Boolean) as { label: string; href: string; primary: boolean }[];
 
   return (

@@ -21,7 +21,8 @@ const meta: Meta<typeof ProjectsBlock> = {
 export default meta;
 type Story = StoryObj<typeof ProjectsBlock>;
 
-const sampleProjects = [
+// Shared dataset — 6 projects so carousel nav is always active on both desktop (3) and mobile (1)
+const manyProjects = [
   {
     title:       "Block Engine",
     description: "A JSON-driven UI rendering engine that converts block schemas into live React components.",
@@ -44,45 +45,68 @@ const sampleProjects = [
     emoji:       "🤖",
     repoUrl:     "https://github.com",
   },
+  {
+    title:       "E-Commerce Store",
+    description: "Full-stack e-commerce app with cart, checkout, and Stripe integration.",
+    tags:        ["React", "Node.js", "Stripe"],
+    emoji:       "🛒",
+    liveUrl:     "https://example.com",
+    repoUrl:     "https://github.com",
+  },
+  {
+    title:       "Real-time Chat",
+    description: "WebSocket-based chat application with rooms and message history.",
+    tags:        ["Socket.io", "Express", "Redis"],
+    emoji:       "💬",
+    repoUrl:     "https://github.com",
+  },
+  {
+    title:       "Dev Dashboard",
+    description: "Internal analytics dashboard with live metrics, charts, and alerting.",
+    tags:        ["React", "Recharts", "PostgreSQL"],
+    emoji:       "�",
+    liveUrl:     "https://example.com",
+    repoUrl:     "https://github.com",
+  },
 ];
 
+/** Default — 6 projects, carousel nav visible on both desktop (3 visible) and mobile (1 visible). */
 export const Default: Story = {
-  args: { projects: sampleProjects },
+  args: { projects: manyProjects },
 };
 
+/** Desktop viewport — 3 cards visible at once. */
+export const Desktop: Story = {
+  args: { projects: manyProjects },
+  parameters: {
+    viewport: { defaultViewport: "desktop" },
+    chromatic: { viewports: [1280] },
+  },
+  name: "Desktop (3 visible)",
+};
+
+/** Mobile viewport — 1 card visible at once. */
+export const Mobile: Story = {
+  args: { projects: manyProjects },
+  parameters: {
+    viewport: { defaultViewport: "mobile1" },
+    chromatic: { viewports: [375] },
+  },
+  name: "Mobile (1 visible)",
+};
+
+/** Single project — nav buttons should be disabled. */
 export const SingleProject: Story = {
   args: {
-    projects: [sampleProjects[0]],
+    projects: [manyProjects[0]],
   },
-  name: "Single Project",
+  name: "Single Project (no nav)",
 };
 
+/** Cards with no links — link row should not render. */
 export const NoLinks: Story = {
   args: {
-    projects: sampleProjects.map(({ liveUrl: _l, repoUrl: _r, ...rest }) => rest),
+    projects: manyProjects.map(({ liveUrl: _l, repoUrl: _r, ...rest }) => rest),
   },
   name: "Projects Without Links",
-};
-
-export const ManyProjects: Story = {
-  args: {
-    projects: [
-      ...sampleProjects,
-      {
-        title:       "E-Commerce Store",
-        description: "Full-stack e-commerce app with cart, checkout, and Stripe integration.",
-        tags:        ["React", "Node.js", "Stripe"],
-        emoji:       "🛒",
-        liveUrl:     "https://example.com",
-      },
-      {
-        title:       "Real-time Chat",
-        description: "WebSocket-based chat application with rooms and message history.",
-        tags:        ["Socket.io", "Express", "Redis"],
-        emoji:       "💬",
-        repoUrl:     "https://github.com",
-      },
-    ],
-  },
-  name: "Many Projects (5)",
 };
