@@ -16,7 +16,6 @@ const meta: Meta<typeof AboutBlock> = {
   argTypes: {
     bio:        { control: "text",   description: "Bio paragraph text" },
     highlights: { control: "object", description: "Array of highlight badge labels" },
-    imageSide:  { control: "select", options: ["left", "right"], description: "Which side the decorative image appears on" },
   },
 };
 
@@ -32,24 +31,13 @@ export const Default: Story = {
   args: {
     bio,
     highlights: ["React", "TypeScript", "Node.js", "PostgreSQL", "Tailwind CSS"],
-    imageSide:  "right",
   },
-};
-
-export const ImageLeft: Story = {
-  args: {
-    bio,
-    highlights: ["Python", "FastAPI", "Docker", "AWS", "CI/CD"],
-    imageSide:  "left",
-  },
-  name: "Image on Left",
 };
 
 export const MinimalHighlights: Story = {
   args: {
     bio:        "Student developer building cool stuff and learning every day.",
     highlights: ["JavaScript", "HTML/CSS"],
-    imageSide:  "right",
   },
   name: "Minimal Highlights",
 };
