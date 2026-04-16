@@ -36,11 +36,80 @@
   margin-top: 12px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
+// ── Carousel ──────────────────────────────────────────────
+.carouselWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
 }
+
+.carouselViewport {
+  overflow: hidden;
+  flex: 1;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 1.25rem;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+// ── Nav buttons ───────────────────────────────────────────
+.navBtn {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  background: rgba(15, 23, 42, 0.8);
+  color: #a78bfa;
+  font-size: 1.6rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 2px 0; // optical vertical correction for ‹ › glyphs
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+
+  &:hover:not(:disabled) {
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(167, 139, 250, 0.8);
+  }
+
+  &__disabled {
+    opacity: 0.25;
+    cursor: default;
+    pointer-events: none;
+  }
+}
+
+// ── Dot indicators ────────────────────────────────────────
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(167, 139, 250, 0.3);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+
+  &__active {
+    background: #a78bfa;
+    transform: scale(1.35);
+  }
+}
+
 
 .card {
   background: linear-gradient(135deg, #0f172a, #0a0f1e);
