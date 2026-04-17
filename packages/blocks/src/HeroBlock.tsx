@@ -35,22 +35,28 @@ export function HeroBlock({
       {/* Subtle grid overlay */}
       <div className={styles.grid} />
 
+      {/* Two-column grid */}
       <div className={styles.content}>
-        {/* Avatar */}
-        {avatarUrl && (
+
+        {/* Left col — Avatar */}
+        {avatarUrl ? (
           <div className={styles.avatar}>
             <div className={styles.avatar__wrap}>
               <div className={styles.avatar__glow} />
-              <img
-                src={avatarUrl}
-                alt={name}
-                className={styles.avatar__img}
-              />
+              <img src={avatarUrl} alt={name} className={styles.avatar__img} />
             </div>
           </div>
+        ) : (
+          <div className={styles.avatar} />
         )}
 
-        {/* Role pill */}
+        {/* Left col — Name */}
+        <h1 className={styles.name}>
+          {name.split(" ")[0]}
+          <span className={styles.name__gradient}>{name.split(" ").slice(1).join(" ")}</span>
+        </h1>
+
+        {/* Right col — Role pill */}
         <div className={styles.role}>
           <span className={styles.role__pill}>
             <span className={styles.role__dot} />
@@ -58,26 +64,21 @@ export function HeroBlock({
           </span>
         </div>
 
-        {/* Name */}
-        <h1 className={styles.name}>
-          Hi, I&apos;m{" "}
-          <span className={styles.name__gradient}>{name}</span>
-        </h1>
-
-        {/* Tagline */}
+        {/* Right col — Tagline */}
         <p className={styles.tagline}>{tagline}</p>
 
-        {/* CTAs */}
+        {/* Right col — CTAs */}
         <div className={styles.ctas}>
-          <Button label={ctaPrimary.label} href={ctaPrimary.href} variant="primary" size="lg" />
-          <Button label={ctaSecondary.label} href={ctaSecondary.href} variant="outline" size="lg" />
+          <Button label={ctaPrimary.label} href={ctaPrimary.href} variant="primary" size="md" />
+          <Button label={ctaSecondary.label} href={ctaSecondary.href} variant="outline" size="md" />
         </div>
 
-        {/* Scroll hint */}
+        {/* Left col — Scroll hint */}
         <div className={styles.scroll}>
           <span className={styles.scroll__label}>scroll</span>
           <div className={styles.scroll__line} />
         </div>
+
       </div>
     </section>
   );

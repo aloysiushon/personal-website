@@ -1,157 +1,196 @@
 // ============================================================
-// BlockEditSidebar
-// Tailwind handles layout / spacing utilities via @apply.
-// SCSS handles colours, gradients, and component-specific rules.
+// BlockEditSidebar  Developer OS file-inspector panel
 // ============================================================
 
-// ── Sidebar container ───────────────────────────────────────
+$bg:           #080c14;
+$bg-panel:     #0d1220;
+$bg-surface:   #111827;
+$bg-elevated:  #161d2e;
+$accent:       #7c3aed;
+$accent-light: #a78bfa;
+$accent-dim:   rgba(124, 58, 237, 0.15);
+$cyan:         #22d3ee;
+$cyan-dim:     rgba(34, 211, 238, 0.12);
+$green:        #10b981;
+$red:          #ef4444;
+$text:         #e2e8f0;
+$text-muted:   #64748b;
+$border:       rgba(124, 58, 237, 0.18);
+$border-dim:   rgba(255, 255, 255, 0.06);
+$mono:         "JetBrains Mono", "Fira Code", monospace;
+
+//  Sidebar container 
 .sidebar {
   position: fixed;
-  top: 112px;
+  top: 96px;
   right: 0;
   bottom: 0;
   width: 340px;
   z-index: 9000;
-  background: rgba(8, 14, 28, 0.97);
-  border-left: 1px solid rgba(124, 58, 237, 0.25);
+  background: $bg-panel;
+  border-left: 1px solid $border;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
-  box-shadow: -8px 0 40px rgba(0, 0, 0, 0.4);
+  box-shadow: -4px 0 40px rgba(0, 0, 0, 0.5), 0 0 1px $border;
 }
 
-// ── Header ──────────────────────────────────────────────────
+//  Header 
 .header {
-  padding: 14px 16px;
-  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+  padding: 12px 14px;
+  border-bottom: 1px solid $border;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
+  background: rgba(8, 12, 20, 0.5);
 }
 
 .header__title {
   margin: 0;
-  color: #a78bfa;
-  font-weight: 700;
-  font-size: 14px;
+  color: $accent-light;
+  font-weight: 500;
+  font-size: 12px;
+  font-family: $mono;
+  letter-spacing: 0.04em;
+
+  &::before {
+    content: "// ";
+    color: $text-muted;
+    opacity: 0.5;
+  }
 }
 
 .header__subtitle {
   margin: 0;
-  color: #475569;
-  font-size: 11px;
+  color: $text-muted;
+  font-size: 10px;
   margin-top: 2px;
+  font-family: $mono;
+  letter-spacing: 0.03em;
+  opacity: 0.7;
 }
 
 .header__close {
-  background: rgba(100, 116, 139, 0.15);
-  border: 1px solid rgba(100, 116, 139, 0.25);
-  color: #94a3b8;
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
+  background: transparent;
+  border: 1px solid $border-dim;
+  color: $text-muted;
+  border-radius: 4px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.15s;
+  transition: all 0.15s;
+  font-family: $mono;
 
   &:hover {
-    background: rgba(100, 116, 139, 0.3);
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
   }
 }
 
-// ── Scrollable field area ────────────────────────────────────
+//  Scrollable field area 
 .fields {
   flex: 1;
   overflow-y: auto;
-  padding: 16px;
+  padding: 14px;
   min-height: 0;
 }
 
-// ── Footer ──────────────────────────────────────────────────
+//  Footer 
 .footer {
-  padding: 12px 16px;
-  border-top: 1px solid rgba(124, 58, 237, 0.2);
+  padding: 10px 14px;
+  border-top: 1px solid $border;
   flex-shrink: 0;
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  background: rgba(8, 12, 20, 0.5);
 }
 
 .footer__apply {
   flex: 1;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  border: none;
-  color: #fff;
-  border-radius: 8px;
-  padding: 9px 0;
-  font-size: 13px;
-  font-weight: 700;
+  background: $accent-dim;
+  border: 1px solid $border;
+  color: $accent-light;
+  border-radius: 4px;
+  padding: 7px 0;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
-  transition: opacity 0.15s;
+  transition: all 0.15s;
 
   &:hover {
-    opacity: 0.9;
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(124, 58, 237, 0.5);
+    box-shadow: 0 0 12px $accent-dim;
   }
 }
 
 .footer__discard {
-  background: rgba(100, 116, 139, 0.1);
-  border: 1px solid rgba(100, 116, 139, 0.25);
-  color: #94a3b8;
-  border-radius: 8px;
-  padding: 9px 12px;
-  font-size: 13px;
-  font-weight: 600;
+  background: transparent;
+  border: 1px solid $border-dim;
+  color: $text-muted;
+  border-radius: 4px;
+  padding: 7px 12px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: all 0.15s;
 
   &:hover {
-    background: rgba(100, 116, 139, 0.2);
+    background: rgba(100, 116, 139, 0.1);
+    color: $text;
   }
 }
 
-// ── Shared field row ─────────────────────────────────────────
+//  Shared field row 
 .field {
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
-// ── Label ────────────────────────────────────────────────────
+//  Label 
 .label {
   display: block;
-  color: #94a3b8;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  color: $text-muted;
+  font-size: 10px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   margin-bottom: 4px;
+  opacity: 0.8;
 }
 
-// ── Text inputs / textarea ────────────────────────────────────
+//  Text inputs / textarea 
 .input {
   width: 100%;
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(100, 116, 139, 0.35);
-  border-radius: 6px;
-  color: #e2e8f0;
-  font-size: 13px;
+  background: rgba(8, 12, 20, 0.6);
+  border: 1px solid $border-dim;
+  border-radius: 4px;
+  color: $text;
+  font-size: 12px;
+  font-family: $mono;
   padding: 6px 10px;
   outline: none;
   box-sizing: border-box;
-  font-family: inherit;
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 
   &:focus {
-    border-color: rgba(124, 58, 237, 0.6);
+    border-color: $border;
+    box-shadow: 0 0 0 3px $accent-dim;
   }
 
   &--textarea {
     resize: vertical;
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   &--number {
@@ -159,7 +198,7 @@
   }
 }
 
-// ── String-array field ────────────────────────────────────────
+//  String-array field 
 .arrayItem {
   display: flex;
   gap: 6px;
@@ -167,128 +206,142 @@
 }
 
 .arrayItem__remove {
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  color: #f87171;
-  border-radius: 6px;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: rgba(239, 68, 68, 0.7);
+  border-radius: 4px;
   padding: 0 8px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px;
+  font-family: $mono;
   flex-shrink: 0;
-  transition: background 0.15s;
+  transition: all 0.15s;
 
   &:hover {
-    background: rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
   }
 }
 
 .addBtn {
-  background: rgba(16, 185, 129, 0.1);
+  background: transparent;
   border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #34d399;
-  border-radius: 6px;
+  color: rgba(16, 185, 129, 0.7);
+  border-radius: 4px;
   padding: 4px 10px;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  transition: background 0.15s;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
 
   &:hover {
-    background: rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.1);
+    color: $green;
+    border-color: rgba(16, 185, 129, 0.6);
   }
 }
 
-// ── Link object field ─────────────────────────────────────────
+//  Link object field 
 .linkBox {
-  margin-bottom: 14px;
-  background: rgba(124, 58, 237, 0.07);
-  border-radius: 8px;
-  padding: 10px 12px;
-  border: 1px solid rgba(124, 58, 237, 0.15);
+  margin-bottom: 10px;
+  background: rgba(8, 12, 20, 0.4);
+  border-radius: 4px;
+  padding: 8px 10px;
+  border: 1px solid $border-dim;
 }
 
 .linkBox__title {
   display: block;
-  color: #a78bfa;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  color: $accent-light;
+  font-size: 10px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+  opacity: 0.7;
 }
 
-// ── Object-array field ────────────────────────────────────────
+//  Object-array field 
 .objArray__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .objArray__addBtn {
-  background: rgba(16, 185, 129, 0.1);
+  background: transparent;
   border: 1px solid rgba(16, 185, 129, 0.3);
-  color: #34d399;
-  border-radius: 6px;
-  padding: 3px 10px;
+  color: rgba(16, 185, 129, 0.7);
+  border-radius: 4px;
+  padding: 2px 10px;
   cursor: pointer;
-  font-size: 12px;
-  font-weight: 600;
-  transition: background 0.15s;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
+  transition: all 0.15s;
 
   &:hover {
-    background: rgba(16, 185, 129, 0.2);
+    background: rgba(16, 185, 129, 0.1);
+    color: $green;
   }
 }
 
 .objArray__item {
-  border: 1px solid rgba(100, 116, 139, 0.2);
-  border-radius: 8px;
-  margin-bottom: 8px;
+  border: 1px solid $border-dim;
+  border-radius: 4px;
+  margin-bottom: 6px;
   overflow: hidden;
 }
 
 .objArray__itemHeader {
   display: flex;
   align-items: center;
-  background: rgba(30, 41, 59, 0.6);
-  padding: 7px 10px;
+  background: rgba(8, 12, 20, 0.5);
+  padding: 6px 10px;
   gap: 8px;
+  border-bottom: 1px solid $border-dim;
 }
 
 .objArray__expand {
   flex: 1;
   background: none;
   border: none;
-  color: #e2e8f0;
-  font-size: 12px;
-  font-weight: 500;
+  color: $text;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
   cursor: pointer;
   text-align: left;
   display: flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: 0.02em;
 }
 
 .objArray__caret {
-  color: #64748b;
+  color: $text-muted;
   font-size: 10px;
 }
 
 .objArray__remove {
   background: none;
   border: none;
-  color: #f87171;
+  color: rgba(239, 68, 68, 0.5);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   padding: 0 2px;
   transition: color 0.15s;
 
   &:hover {
-    color: #ef4444;
+    color: #fca5a5;
   }
 }
 
 .objArray__fields {
-  padding: 10px 12px;
+  padding: 8px 10px;
+  background: rgba(8, 12, 20, 0.3);
 }

@@ -1,115 +1,174 @@
 // ============================================================
-// PortfolioPage — visual editor chrome
-// Tailwind handles layout / spacing utilities via className.
-// SCSS handles colours, gradients, blurs, and component rules.
+// PortfolioPage  Developer OS chrome
+// Dark theme  monospace accents  terminal-inspired UI
 // ============================================================
 
-// ── Edit-mode FAB (floating action button) ──────────────────
+//  Design tokens 
+$bg:           #080c14;
+$bg-panel:     #0d1220;
+$bg-surface:   #111827;
+$bg-elevated:  #161d2e;
+$accent:       #7c3aed;
+$accent-light: #a78bfa;
+$accent-glow:  rgba(124, 58, 237, 0.45);
+$accent-dim:   rgba(124, 58, 237, 0.15);
+$cyan:         #22d3ee;
+$cyan-dim:     rgba(34, 211, 238, 0.12);
+$green:        #10b981;
+$red:          #ef4444;
+$text:         #e2e8f0;
+$text-muted:   #94a3b8;
+$border:       rgba(124, 58, 237, 0.18);
+$border-dim:   rgba(255, 255, 255, 0.06);
+$mono:         "JetBrains Mono", "Fira Code", monospace;
+$sans:         "Inter", system-ui, sans-serif;
+
+//  Edit-mode FAB 
 .editFab {
   position: fixed;
   bottom: 24px;
   right: 24px;
   z-index: 9999;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 600;
+  background: $bg-elevated;
+  color: $accent-light;
+  border: 1px solid $border;
+  border-radius: 6px;
+  padding: 9px 16px;
+  font-size: 12px;
+  font-family: $mono;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.5);
-  transition: opacity 0.15s, transform 0.15s;
+  box-shadow:
+    0 0 0 1px $accent-dim,
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 20px $accent-dim;
+  transition: all 0.2s ease;
+
+  &::before {
+    content: "";
+    color: $accent;
+    font-size: 10px;
+    opacity: 0.8;
+  }
 
   &:hover {
-    opacity: 0.9;
+    background: $bg-panel;
+    border-color: rgba(124, 58, 237, 0.5);
+    box-shadow:
+      0 0 0 1px rgba(124, 58, 237, 0.3),
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(124, 58, 237, 0.25);
     transform: translateY(-1px);
   }
 }
 
-// ── Editor toolbar ───────────────────────────────────────────
+//  Toolbar  OS titlebar 
 .toolbar {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 9999;
-  background: rgba(3, 7, 18, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(124, 58, 237, 0.3);
-  padding: 0 1.5rem;
-  height: 56px;
+  height: 48px;
+  background: $bg-panel;
+  border-bottom: 1px solid $border;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 1px 0 $border-dim, 0 4px 24px rgba(0, 0, 0, 0.4);
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 12px;
+    background:
+      radial-gradient(circle 5px at 5px 6px, #ef4444 100%, transparent 100%),
+      radial-gradient(circle 5px at 21px 6px, #f59e0b 100%, transparent 100%),
+      radial-gradient(circle 5px at 37px 6px, #10b981 100%, transparent 100%);
+    opacity: 0.7;
+  }
 }
 
 .toolbar__title {
-  color: #a78bfa;
-  font-weight: 700;
-  font-size: 15px;
+  color: $text-muted;
+  font-family: $mono;
+  font-size: 12px;
+  font-weight: 400;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  margin-left: 60px;
+  letter-spacing: 0.03em;
 }
 
 .toolbar__icon {
-  font-size: 18px;
+  color: $accent-light;
+  font-size: 14px;
 }
 
 .toolbar__hint {
   color: #475569;
-  font-weight: 400;
-  font-size: 12px;
+  font-size: 11px;
 }
 
 .toolbar__actions {
   display: flex;
-  gap: 10px;
+  gap: 6px;
   align-items: center;
 }
 
 .toolbar__reset {
   background: transparent;
-  border: 1px solid rgba(100, 116, 139, 0.4);
-  color: #94a3b8;
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 500;
+  border: 1px solid $border-dim;
+  color: $text-muted;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition: all 0.15s;
 
   &:hover {
-    border-color: rgba(100, 116, 139, 0.7);
-    color: #cbd5e1;
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #fecaca;
+    background: #1f1215;
   }
 }
 
 .toolbar__done {
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  border: none;
-  color: #fff;
-  padding: 6px 16px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  background: $accent-dim;
+  border: 1px solid $border;
+  color: $accent-light;
+  padding: 4px 14px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 500;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4);
-  transition: opacity 0.15s;
+  transition: all 0.15s;
 
   &:hover {
-    opacity: 0.9;
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(124, 58, 237, 0.5);
+    box-shadow: 0 0 12px $accent-dim;
   }
 }
 
-// ── Canvas wrapper (shifts right when sidebar opens) ─────────
+//  Canvas 
 .canvas {
-  padding-top: 56px;
+  padding-top: 48px;
   transition: margin-right 0.2s ease;
 
   &--sidebarOpen {
@@ -117,101 +176,113 @@
   }
 }
 
-// ── Sortable block overlay controls ─────────────────────────
+//  Block controls overlay 
 .blockControls {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 8px;
+  right: 8px;
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+  background: rgba(8, 12, 20, 0.7);
+  border: 1px solid $border;
+  border-radius: 6px;
+  padding: 4px 6px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5), 0 0 1px $border;
 }
 
 .blockBtn {
-  color: #fff;
-  border: 1px solid rgba(124, 58, 237, 0.4);
-  padding: 5px 10px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: opacity 0.15s;
+  transition: all 0.12s;
 
   &--edit {
-    background: rgba(30, 41, 59, 0.85);
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    color: $text-muted;
 
     &:hover {
-      opacity: 0.85;
+      background: $accent-dim;
+      border-color: $border;
+      color: $accent-light;
     }
   }
 
   &--editActive {
-    background: rgba(124, 58, 237, 0.9);
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
-
-    &:hover {
-      opacity: 0.85;
-    }
+    color: $accent-light;
+    background: rgba(124, 58, 237, 0.25);
+    border-color: $border;
   }
 
   &--visibility {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(30, 41, 59, 0.85);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: $text-muted;
 
     &:hover {
-      opacity: 0.85;
+      background: $cyan-dim;
+      border-color: rgba(34, 211, 238, 0.3);
+      color: $cyan;
     }
   }
 
   &--hidden {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(100, 116, 139, 0.85);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: $text-muted;
+    opacity: 0.6;
 
     &:hover {
-      opacity: 0.85;
+      background: $cyan-dim;
+      border-color: rgba(34, 211, 238, 0.3);
+      color: $cyan;
+      opacity: 1;
     }
   }
 
   &--remove {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: rgba(239, 68, 68, 0.85);
-    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+    color: #f87171;
 
     &:hover {
-      opacity: 0.85;
+      background: #1f1215;
+      border-color: rgba(239, 68, 68, 0.5);
+      color: #fecaca;
     }
   }
 }
 
 .blockDragHandle {
-  background: rgba(124, 58, 237, 0.85);
-  color: #fff;
-  padding: 5px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  background: transparent;
+  color: $text-muted;
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
   cursor: grab;
   display: flex;
   align-items: center;
-  gap: 6px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  gap: 4px;
   user-select: none;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid transparent;
+  transition: all 0.12s;
+
+  &:hover {
+    background: $accent-dim;
+    border-color: $border;
+    color: $accent-light;
+  }
 
   &:active {
     cursor: grabbing;
   }
 }
 
-// ── Hidden-block overlay ─────────────────────────────────────
+//  Hidden-block overlay 
 .hiddenOverlay {
   position: absolute;
   inset: 0;
@@ -219,112 +290,136 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(3, 7, 18, 0.45);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+  background: rgba(8, 12, 20, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   pointer-events: none;
 }
 
 .hiddenLabel {
-  background: rgba(100, 116, 139, 0.9);
-  color: #f1f5f9;
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  background: rgba(8, 12, 20, 0.9);
+  border: 1px solid $border-dim;
+  color: $text-muted;
+  padding: 6px 18px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-// ── DragOverlay wrapper ──────────────────────────────────────
+//  DragOverlay 
 .dragOverlay {
-  opacity: 0.9;
+  opacity: 0.88;
   pointer-events: none;
-  transform: scale(0.98);
-  box-shadow: 0 24px 80px rgba(124, 58, 237, 0.4);
+  transform: scale(0.985);
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px $border,
+    0 0 40px $accent-dim;
 }
 
-// ── Add Block menu ───────────────────────────────────────────
+//  Add Block menu 
 .addMenu {
   position: relative;
 }
 
 .addMenu__trigger {
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid rgba(16, 185, 129, 0.4);
-  color: #34d399;
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
+  background: transparent;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: rgba(16, 185, 129, 0.8);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: background 0.15s;
+  transition: all 0.15s;
 
   &:hover {
-    background: rgba(16, 185, 129, 0.25);
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.6);
+    color: $green;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
   }
 }
 
 .addMenu__dropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 6px);
   right: 0;
   z-index: 10000;
-  background: rgba(15, 23, 42, 0.98);
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  border-radius: 12px;
-  padding: 8px 0;
+  background: $bg-panel;
+  border: 1px solid $border;
+  border-radius: 6px;
+  padding: 6px 0;
   min-width: 180px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.7),
+    0 0 0 1px $border-dim,
+    0 0 20px $accent-dim;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
 
 .addMenu__heading {
-  color: #64748b;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 14px 8px;
+  color: $text-muted;
+  font-size: 10px;
+  font-family: $mono;
+  font-weight: 400;
+  padding: 4px 12px 6px;
   margin: 0;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
+  opacity: 0.6;
+  border-bottom: 1px solid $border-dim;
+  margin-bottom: 4px;
 }
 
 .addMenu__item {
   display: flex;
   width: 100%;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: transparent;
   border: none;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-family: $mono;
+  font-weight: 400;
   cursor: pointer;
   text-align: left;
   transition: background 0.1s;
+  letter-spacing: 0.02em;
 
   &--available {
-    color: #e2e8f0;
+    color: $text;
   }
 
   &--duplicate {
-    color: #94a3b8;
+    color: $text-muted;
   }
 
   &:hover {
-    background: rgba(124, 58, 237, 0.15);
+    background: $accent-dim;
+    color: $accent-light;
   }
 }
 
 .addMenu__emoji {
-  font-size: 16px;
+  font-size: 14px;
+  opacity: 0.8;
 }
 
 .addMenu__count {
   margin-left: auto;
-  font-size: 11px;
-  color: #64748b;
+  font-size: 10px;
+  color: $text-muted;
+  opacity: 0.6;
+  font-family: $mono;
 }

@@ -1,62 +1,66 @@
 // ============================================================
-// ChatBot — Floating AI chat widget
+// ChatBot  Developer OS terminal-style chat widget
 // ============================================================
 
-// ── Variables ────────────────────────────────────────────────
+$bg:           #080c14;
+$bg-panel:     #0d1220;
+$bg-surface:   #111827;
 $accent:       #7c3aed;
 $accent-light: #a78bfa;
 $accent-dark:  #6d28d9;
-$bg:           #0f172a;
-$bg-surface:   #1e293b;
-$bg-user:      #312e81;
-$border:       rgba(124, 58, 237, 0.25);
-$text:         #f1f5f9;
-$text-muted:   #94a3b8;
-$radius:       16px;
+$accent-dim:   rgba(124, 58, 237, 0.15);
+$border:       rgba(124, 58, 237, 0.18);
+$border-dim:   rgba(255, 255, 255, 0.06);
+$text:         #e2e8f0;
+$text-muted:   #64748b;
+$radius:       8px;
+$mono:         "JetBrains Mono", "Fira Code", monospace;
 
-// ── FAB (floating action button) ────────────────────────────
+//  FAB 
 .fab {
   position: fixed;
-  bottom: 88px; // above the Edit Layout button
+  bottom: 88px;
   right: 24px;
   z-index: 10000;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, $accent, $accent-dark);
-  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  background: $bg-panel;
+  border: 1px solid $border;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.55);
-  transition: transform 0.2s, opacity 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 0 1px $accent-dim, 0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
 
   &:hover {
-    transform: translateY(-2px) scale(1.06);
-    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.7);
+    border-color: rgba(124, 58, 237, 0.5);
+    box-shadow: 0 0 0 1px rgba(124, 58, 237, 0.3), 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 20px $accent-dim;
+    transform: translateY(-1px);
   }
 
   &--active {
-    background: linear-gradient(135deg, #1e293b, #0f172a);
+    background: $bg;
+    border-color: $border;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
   }
 }
 
 .fab__icon {
-  font-size: 22px;
+  font-size: 18px;
   line-height: 1;
 }
 
 .fab__badge {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 12px;
-  height: 12px;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #ef4444;
-  border: 2px solid $bg;
+  border: 1px solid $bg;
   animation: pulse 1.5s infinite;
 }
 
@@ -65,45 +69,48 @@ $radius:       16px;
   50%       { transform: scale(1.3); opacity: 0.7; }
 }
 
-// ── Chat window ──────────────────────────────────────────────
+//  Chat window 
 .window {
   position: fixed;
-  bottom: 156px; // above FAB
+  bottom: 148px;
   right: 24px;
   z-index: 9998;
   width: 380px;
   max-width: calc(100vw - 48px);
-  height: 520px;
+  height: 500px;
   max-height: calc(100vh - 180px);
-  background: $bg;
+  background: $bg-panel;
   border: 1px solid $border;
   border-radius: $radius;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px $border;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.6),
+    0 0 0 1px $border,
+    0 0 30px $accent-dim;
   animation: slideUp 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-  padding: 0; // reset <dialog> default padding
-  margin: 0;  // reset <dialog> default margin
+  padding: 0;
+  margin: 0;
   color: $text;
 
   &::backdrop {
-    display: none; // no backdrop for inline dialog
+    display: none;
   }
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-// ── Header ───────────────────────────────────────────────────
+//  Header 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
-  background: $bg-surface;
+  padding: 10px 12px;
+  background: rgba(8, 12, 20, 0.7);
   border-bottom: 1px solid $border;
   flex-shrink: 0;
 }
@@ -111,34 +118,38 @@ $radius:       16px;
 .header__left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .header__avatar {
-  font-size: 28px;
+  font-size: 18px;
   line-height: 1;
 }
 
 .header__name {
-  font-size: 14px;
-  font-weight: 700;
-  color: $text;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: $mono;
+  color: $accent-light;
   margin: 0;
+  letter-spacing: 0.03em;
 }
 
 .header__status {
-  font-size: 11px;
+  font-size: 10px;
+  font-family: $mono;
   color: #4ade80;
   display: flex;
   align-items: center;
   gap: 4px;
   margin: 2px 0 0;
+  opacity: 0.8;
 }
 
 .header__dot {
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #4ade80;
   animation: blink 2s infinite;
@@ -146,51 +157,53 @@ $radius:       16px;
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+  50%       { opacity: 0.3; }
 }
 
 .header__clear {
   background: transparent;
-  border: 1px solid rgba(100, 116, 139, 0.35);
+  border: 1px solid $border-dim;
   color: $text-muted;
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 8px;
+  font-size: 10px;
+  font-family: $mono;
+  padding: 3px 10px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition: all 0.15s;
+  letter-spacing: 0.03em;
 
   &:hover {
-    border-color: rgba(100, 116, 139, 0.7);
-    color: #cbd5e1;
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+    background: rgba(239, 68, 68, 0.08);
   }
 }
 
-// ── Messages area ────────────────────────────────────────────
+//  Messages area 
 .messages {
   flex: 1;
   overflow-y: auto;
-  padding: 16px 14px;
+  padding: 14px 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   scroll-behavior: smooth;
 
-  // Thin purple scrollbar
   &::-webkit-scrollbar         { width: 4px; }
   &::-webkit-scrollbar-track   { background: transparent; }
-  &::-webkit-scrollbar-thumb   { background: rgba(124, 58, 237, 0.4); border-radius: 4px; }
+  &::-webkit-scrollbar-thumb   { background: rgba(124, 58, 237, 0.3); border-radius: 4px; }
 }
 
-// ── Single message ───────────────────────────────────────────
+//  Single message 
 .message {
   display: flex;
   align-items: flex-end;
-  gap: 8px;
-  animation: fadeIn 0.18s ease;
+  gap: 6px;
+  animation: fadeIn 0.15s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -203,134 +216,150 @@ $radius:       16px;
 }
 
 .message__avatar {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1;
   flex-shrink: 0;
   margin-bottom: 2px;
 }
 
 .message__bubble {
-  max-width: 75%;
-  padding: 10px 14px;
-  border-radius: 14px;
-  line-height: 1.55;
+  max-width: 78%;
+  padding: 8px 12px;
+  line-height: 1.6;
+  border-radius: 6px;
 
   .message--user & {
-    background: linear-gradient(135deg, $accent, $accent-dark);
-    border-bottom-right-radius: 4px;
-    color: #fff;
+    background: $accent-dim;
+    border: 1px solid rgba(124, 58, 237, 0.35);
+    border-bottom-right-radius: 2px;
+    color: #c4b5fd;
   }
 
   .message--assistant & {
-    background: $bg-surface;
-    border: 1px solid $border;
-    border-bottom-left-radius: 4px;
+    background: rgba(8, 12, 20, 0.5);
+    border: 1px solid $border-dim;
+    border-bottom-left-radius: 2px;
     color: $text;
   }
 
-  // Typing dots container
   &--typing {
     display: flex;
     align-items: center;
     gap: 5px;
-    padding: 12px 16px;
+    padding: 10px 14px;
   }
 }
 
 .message__text {
   margin: 0;
-  font-size: 13.5px;
+  font-size: 12.5px;
+  font-family: $mono;
   white-space: pre-wrap;
   word-break: break-word;
+  letter-spacing: 0.01em;
 }
 
-// ── Typing dots ──────────────────────────────────────────────
+//  Typing dots 
 .typingDot {
   display: inline-block;
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background: $accent-light;
   animation: typingBounce 1.2s infinite;
 
-  &:nth-child(1) { animation-delay: 0s;    }
-  &:nth-child(2) { animation-delay: 0.2s;  }
-  &:nth-child(3) { animation-delay: 0.4s;  }
+  &:nth-child(1) { animation-delay: 0s; }
+  &:nth-child(2) { animation-delay: 0.2s; }
+  &:nth-child(3) { animation-delay: 0.4s; }
 }
 
 @keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
-  30%            { transform: translateY(-6px); opacity: 1; }
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30%            { transform: translateY(-5px); opacity: 1; }
 }
 
-// ── Input area ───────────────────────────────────────────────
+//  Input area 
 .inputArea {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 14px;
+  gap: 6px;
+  padding: 10px 12px;
   border-top: 1px solid $border;
-  background: $bg-surface;
+  background: rgba(8, 12, 20, 0.6);
   flex-shrink: 0;
+
+  // Terminal prompt indicator
+  &::before {
+    content: "";
+    color: $accent;
+    font-family: $mono;
+    font-size: 11px;
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
 }
 
 .input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  border-radius: 10px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid $border-dim;
+  border-radius: 0;
   color: $text;
-  font-size: 13.5px;
-  padding: 9px 13px;
+  font-size: 12px;
+  font-family: $mono;
+  padding: 4px 0;
   outline: none;
+  letter-spacing: 0.02em;
   transition: border-color 0.15s;
 
   &::placeholder {
     color: $text-muted;
+    opacity: 0.5;
   }
 
   &:focus {
-    border-color: rgba(124, 58, 237, 0.7);
-    background: rgba(124, 58, 237, 0.08);
+    border-bottom-color: rgba(124, 58, 237, 0.5);
   }
 
   &:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
   }
 }
 
 .sendBtn {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, $accent, $accent-dark);
-  border: none;
-  color: #fff;
-  font-size: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  background: $accent-dim;
+  border: 1px solid $border;
+  color: $accent-light;
+  font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: opacity 0.15s, transform 0.15s;
+  transition: all 0.15s;
 
   &:hover:not(:disabled) {
-    opacity: 0.85;
-    transform: scale(1.05);
+    background: rgba(124, 58, 237, 0.25);
+    border-color: rgba(124, 58, 237, 0.5);
+    box-shadow: 0 0 10px $accent-dim;
   }
 
   &:disabled {
-    opacity: 0.35;
+    opacity: 0.3;
     cursor: not-allowed;
   }
 }
 
 .sendBtn__spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  border-top-color: $accent-light;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
@@ -339,14 +368,15 @@ $radius:       16px;
   to { transform: rotate(360deg); }
 }
 
-// ── Footer ───────────────────────────────────────────────────
+//  Footer 
 .footer {
   text-align: center;
-  font-size: 10px;
-  color: rgba(100, 116, 139, 0.6);
-  padding: 6px 0 8px;
+  font-size: 9px;
+  font-family: $mono;
+  color: rgba(100, 116, 139, 0.4);
+  padding: 5px 0 6px;
   margin: 0;
   flex-shrink: 0;
-  border-top: 1px solid rgba(124, 58, 237, 0.1);
   background: $bg;
+  letter-spacing: 0.04em;
 }

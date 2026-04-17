@@ -59,8 +59,13 @@ export function SkillsBlock({ categories }: Readonly<SkillsBlockProps>): React.R
     <section id="skills" className={styles.section}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <span className={styles.label}>Skills</span>
-          <h2 className={styles.heading}>My Tech Stack</h2>
+          <div className={styles.header__dots}>
+            <span style={{ background: "#ef4444", opacity: 0.7 }} />
+            <span style={{ background: "#f59e0b", opacity: 0.7 }} />
+            <span style={{ background: "#10b981", opacity: 0.7 }} />
+          </div>
+          <span className={styles.label}>modules/skills</span>
+          <h2 className={styles.heading}>{"// tech-stack.json"}</h2>
         </div>
 
         <div className={styles.carouselWrapper}>

@@ -1,27 +1,64 @@
 // ============================================================
-// FooterBlock
+// FooterBlock  OS status bar
 // ============================================================
+$bg-panel: #0d1220;
+$accent-light: #a78bfa;
+$cyan:     #22d3ee;
+$green:    #10b981;
+$text-muted: #334155;
+$border:   rgba(124, 58, 237, 0.12);
+$border-dim: rgba(255, 255, 255, 0.05);
+$mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .footer {
-  background: #030712;
-  border-top: 1px solid rgba(124, 58, 237, 0.12);
-  padding: 2.5rem 1.5rem;
-  text-align: center;
+  background: $bg-panel;
+  border-top: 1px solid $border;
+  padding: 0;
+  height: 28px;
+  display: flex;
+  align-items: stretch;
 }
 
+// Status bar segments
+.segment {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  border-right: 1px solid $border-dim;
+  font-family: $mono;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: background 0.12s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  &:last-child {
+    border-right: none;
+    margin-left: auto;
+    border-left: 1px solid $border-dim;
+  }
+}
+
+.segment__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+// Keep old classes for backward compat with TSX
 .primary {
-  color: #475569;
-  font-size: 14px;
+  display: none;
 }
 
 .primary__name {
-  color: #a78bfa;
-  font-weight: 600;
+  color: $accent-light;
 }
 
 .secondary {
-  color: #1e293b;
-  font-size: 12px;
-  margin-top: 8px;
-  font-family: monospace;
+  display: none;
 }

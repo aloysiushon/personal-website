@@ -1,46 +1,98 @@
 // ============================================================
-// SkillsBlock
+// SkillsBlock  Terminal module registry (full-width grid)
 // ============================================================
+$bg:       #080c14;
+$bg-panel: #0d1220;
+$accent:   #7c3aed;
+$accent-light: #a78bfa;
+$accent-dim: rgba(124, 58, 237, 0.15);
+$text:     #e2e8f0;
+$text-muted: #64748b;
+$border:   rgba(124, 58, 237, 0.18);
+$border-dim: rgba(255, 255, 255, 0.06);
+$mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .section {
-  background: #060b18;
-  padding: 6rem 1.5rem;
+  background: $bg;
+  padding: 0;
+  position: relative;
 
-  @media (max-width: 767px) {
-    padding: 3rem 1.25rem;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $border 40%, $border 60%, transparent);
+    opacity: 0.4;
   }
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
+  border-left: 1px solid $border-dim;
+  border-right: 1px solid $border-dim;
+  border-bottom: 1px solid $border-dim;
 }
 
+//  Terminal chrome header 
 .header {
-  text-align: center;
-  margin-bottom: 3.5rem;
+  background: $bg-panel;
+  border-bottom: 1px solid $border-dim;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header__dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+
+  span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
 }
 
 .label {
-  color: #a78bfa;
-  font-family: monospace;
-  font-size: 12px;
-  letter-spacing: 0.15em;
+  color: $text-muted;
+  font-family: $mono;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  opacity: 0.6;
+
+  &::before {
+    content: "$ ls ";
+    color: $accent-light;
+    opacity: 0.5;
+  }
 }
 
 .heading {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 700;
-  color: #f1f5f9;
-  margin-top: 12px;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 500;
+  color: $text;
+  letter-spacing: -0.01em;
+  margin-left: auto;
+  font-family: $mono;
+  font-size: 11px;
+  color: $text-muted;
+  opacity: 0.5;
+  letter-spacing: 0.03em;
 }
 
-// ── Carousel ──────────────────────────────────────────────
+//  Horizontal scrolling card strip (no carousel arrows) 
 .carouselWrapper {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0;
+  padding: 2rem 1.5rem;
+  overflow: hidden;
   position: relative;
 }
 
@@ -51,101 +103,108 @@
 
 .carouselTrack {
   display: flex;
-  gap: 1.25rem;
+  gap: 1px;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }
 
-// ── Nav buttons ───────────────────────────────────────────
+//  Nav buttons 
 .navBtn {
   flex-shrink: 0;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  border: 1px solid rgba(167, 139, 250, 0.4);
-  background: rgba(15, 23, 42, 0.8);
-  color: #a78bfa;
-  font-size: 1.6rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 3px;
+  border: 1px solid $border;
+  background: rgba(13, 18, 32, 0.8);
+  color: $accent-light;
+  font-size: 1.2rem;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0 2px 0; // optical vertical correction for ‹ › glyphs
+  padding: 0 0 2px 0;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+  font-family: $mono;
+  transition: all 0.15s;
+  margin: 0 8px;
 
   &:hover:not(:disabled) {
-    background: rgba(124, 58, 237, 0.25);
-    border-color: rgba(167, 139, 250, 0.8);
+    background: $accent-dim;
+    border-color: rgba(167, 139, 250, 0.5);
   }
 
   &__disabled {
-    opacity: 0.25;
+    opacity: 0.2;
     cursor: default;
     pointer-events: none;
   }
 }
 
-// ── Dot indicators ────────────────────────────────────────
 .dots {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
-  margin-top: 2rem;
+  gap: 6px;
+  padding: 0 1.5rem 1.5rem;
 }
 
 .dot {
-  width: 8px;
-  height: 8px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   border: none;
-  background: rgba(167, 139, 250, 0.3);
+  background: rgba(124, 58, 237, 0.3);
   cursor: pointer;
   padding: 0;
-  transition: background 0.2s, transform 0.2s;
+  transition: all 0.2s;
 
   &__active {
-    background: #a78bfa;
-    transform: scale(1.35);
+    background: $accent-light;
+    width: 14px;
+    border-radius: 2px;
   }
 }
 
-
+//  Skill card  "installed module" style 
 .card {
-  background: linear-gradient(135deg, #0f172a, #0a0f1e);
-  border-radius: 16px;
-  padding: 1.5rem;
-  transition: transform 0.2s, box-shadow 0.2s;
+  background: $bg;
+  border-radius: 0;
+  padding: 1.25rem 1.5rem;
+  transition: all 0.15s;
+  border: 1px solid $border-dim;
+  margin: 4px;
 
   &--violet {
-    border: 1px solid rgba(124, 58, 237, 0.3);
-    box-shadow: 0 4px 24px rgba(124, 58, 237, 0.08);
+    border-top: 2px solid rgba(124, 58, 237, 0.6);
+    &:hover { background: rgba(124, 58, 237, 0.04); box-shadow: 0 0 20px rgba(124, 58, 237, 0.08); }
   }
 
   &--blue {
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    box-shadow: 0 4px 24px rgba(59, 130, 246, 0.08);
+    border-top: 2px solid rgba(59, 130, 246, 0.6);
+    &:hover { background: rgba(59, 130, 246, 0.04); box-shadow: 0 0 20px rgba(59, 130, 246, 0.08); }
   }
 
   &--green {
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    box-shadow: 0 4px 24px rgba(16, 185, 129, 0.08);
+    border-top: 2px solid rgba(16, 185, 129, 0.6);
+    &:hover { background: rgba(16, 185, 129, 0.04); box-shadow: 0 0 20px rgba(16, 185, 129, 0.08); }
   }
 
   &--pink {
-    border: 1px solid rgba(236, 72, 153, 0.3);
-    box-shadow: 0 4px 24px rgba(236, 72, 153, 0.08);
+    border-top: 2px solid rgba(236, 72, 153, 0.6);
+    &:hover { background: rgba(236, 72, 153, 0.04); box-shadow: 0 0 20px rgba(236, 72, 153, 0.08); }
   }
 
   &--gray {
-    border: 1px solid rgba(100, 116, 139, 0.3);
-    box-shadow: 0 4px 24px rgba(100, 116, 139, 0.08);
+    border-top: 2px solid rgba(100, 116, 139, 0.6);
+    &:hover { background: rgba(100, 116, 139, 0.04); }
   }
 }
 
 .card__heading {
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-weight: 400;
+  font-size: 10px;
+  font-family: $mono;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -159,20 +218,21 @@
 }
 
 .card__dot {
-  width: 8px;
-  height: 8px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   display: inline-block;
+  flex-shrink: 0;
 
-  &--violet { background: #a78bfa; box-shadow: 0 0 8px #a78bfa; }
-  &--blue   { background: #60a5fa; box-shadow: 0 0 8px #60a5fa; }
-  &--green  { background: #34d399; box-shadow: 0 0 8px #34d399; }
-  &--pink   { background: #f472b6; box-shadow: 0 0 8px #f472b6; }
-  &--gray   { background: #94a3b8; box-shadow: 0 0 8px #94a3b8; }
+  &--violet { background: #a78bfa; box-shadow: 0 0 5px #a78bfa; }
+  &--blue   { background: #60a5fa; box-shadow: 0 0 5px #60a5fa; }
+  &--green  { background: #34d399; box-shadow: 0 0 5px #34d399; }
+  &--pink   { background: #f472b6; box-shadow: 0 0 5px #f472b6; }
+  &--gray   { background: #94a3b8; box-shadow: 0 0 5px #94a3b8; }
 }
 
 .card__badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 5px;
 }

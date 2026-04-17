@@ -1,99 +1,258 @@
 // ============================================================
-// ContactBlock
+// ContactBlock  Terminal connection endpoint
 // ============================================================
+$bg:       #080c14;
+$bg-panel: #0d1220;
+$accent:   #7c3aed;
+$accent-light: #a78bfa;
+$accent-dim: rgba(124, 58, 237, 0.15);
+$cyan:     #22d3ee;
+$green:    #10b981;
+$text:     #e2e8f0;
+$text-muted: #64748b;
+$border:   rgba(124, 58, 237, 0.18);
+$border-dim: rgba(255, 255, 255, 0.06);
+$mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .section {
-  background: #060b18;
-  padding: 6rem 1.5rem;
-
-  @media (max-width: 767px) {
-    padding: 3rem 1.25rem;
-  }
-}
-
-.container {
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.glow {
+  background: $bg;
+  padding: 0;
   position: relative;
-  display: inline-block;
-  margin-bottom: 2rem;
 
   &::before {
     content: "";
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
-    filter: blur(40px);
-    pointer-events: none;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $green 30%, $cyan 70%, transparent);
+    opacity: 0.3;
   }
 }
 
-.label {
-  color: #a78bfa;
-  font-family: monospace;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-left: 1px solid $border-dim;
+  border-right: 1px solid $border-dim;
+  border-bottom: 1px solid $border-dim;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+//  Left side: terminal output panel 
+.terminal {
+  background: $bg;
+  border-right: 1px solid $border-dim;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 900px) {
+    border-right: none;
+    border-bottom: 1px solid $border-dim;
+  }
+}
+
+.terminal__chrome {
+  background: $bg-panel;
+  border-bottom: 1px solid $border-dim;
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.terminal__dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  span {
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+}
+
+.terminal__title {
+  font-family: $mono;
+  font-size: 10px;
+  color: $text-muted;
+  opacity: 0.6;
+  letter-spacing: 0.05em;
+}
+
+.terminal__body {
+  padding: 1.5rem 1.75rem 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.terminal__line {
+  font-family: $mono;
   font-size: 12px;
-  letter-spacing: 0.15em;
+  line-height: 1.7;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+
+  &--prompt {
+    color: $green;
+    &::before { content: ""; color: $accent; font-size: 10px; }
+    gap: 10px;
+  }
+
+  &--comment {
+    color: $text-muted;
+    opacity: 0.4;
+    &::before { content: "//"; color: $text-muted; font-size: 10px; opacity: 0.5; }
+    gap: 8px;
+  }
+
+  &--output {
+    color: $text-muted;
+    padding-left: 18px;
+  }
+
+  &--success {
+    color: $green;
+    &::before { content: ""; color: $green; font-size: 10px; }
+    gap: 8px;
+  }
+}
+
+//  Right side: connection form 
+.panel {
+  background: $bg;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel__chrome {
+  background: $bg-panel;
+  border-bottom: 1px solid $border-dim;
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.panel__title {
+  font-family: $mono;
+  font-size: 10px;
+  color: $text-muted;
+  opacity: 0.6;
+  letter-spacing: 0.05em;
+}
+
+.glow {
+  display: none; // no longer needed, kept for prop compat
+}
+
+.label {
+  color: $text-muted;
+  font-family: $mono;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+  opacity: 0.5;
+}
+
+.panel__body {
+  padding: 2rem 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .heading {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 700;
-  color: #f1f5f9;
-  margin: 0.75rem 0 1rem;
+  font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+  font-weight: 600;
+  color: $text;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+
+  &::before {
+    display: block;
+    content: "/** contact */";
+    color: $text-muted;
+    font-size: 11px;
+    font-family: $mono;
+    font-weight: 400;
+    margin-bottom: 8px;
+    opacity: 0.4;
+  }
 }
 
 .desc {
-  color: #64748b;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 2.5rem;
+  color: $text-muted;
+  font-size: 0.85rem;
+  font-family: $mono;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  letter-spacing: 0.01em;
 }
 
 .links {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-bottom: 2.5rem;
+  gap: 6px;
+  margin-bottom: 1.5rem;
 }
 
 .link {
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   text-decoration: none;
   transition: all 0.15s;
 
   &--primary {
-    padding: 12px 28px;
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
-    color: #fff;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+    padding: 8px 20px;
+    background: $accent-dim;
+    border: 1px solid $border;
+    color: $accent-light;
+
+    &::before { content: " "; }
+
+    &:hover {
+      background: rgba(124, 58, 237, 0.25);
+      border-color: rgba(124, 58, 237, 0.5);
+      box-shadow: 0 0 14px $accent-dim;
+    }
   }
 
   &--secondary {
-    padding: 11px 24px;
+    padding: 8px 16px;
     background: transparent;
-    border: 1px solid rgba(124, 58, 237, 0.35);
-    color: #a78bfa;
+    border: 1px solid $border-dim;
+    color: $text-muted;
+
+    &::before { content: " "; opacity: 0.5; }
 
     &:hover {
-      background: rgba(124, 58, 237, 0.08);
+      border-color: $border;
+      color: $accent-light;
+      background: $accent-dim;
     }
   }
 }
 
 .email {
-  color: #334155;
-  font-size: 13px;
-  font-family: monospace;
+  color: $text-muted;
+  opacity: 0.3;
+  font-size: 11px;
+  font-family: $mono;
+  letter-spacing: 0.05em;
 }

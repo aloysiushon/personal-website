@@ -1,16 +1,46 @@
 // ============================================================
-// HeroBlock
+// HeroBlock  Two-column IDE identity split
 // ============================================================
+$bg:       #080c14;
+$accent:   #7c3aed;
+$accent-light: #a78bfa;
+$cyan:     #22d3ee;
+$green:    #10b981;
+$text:     #e2e8f0;
+$text-muted: #64748b;
+$border:   rgba(124, 58, 237, 0.18);
+$border-dim: rgba(255, 255, 255, 0.06);
+$mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .hero {
-  background: linear-gradient(135deg, #030712 0%, #0f0a1e 50%, #030712 100%);
+  background: $bg;
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
   overflow: hidden;
-  padding-top: 64px;
+  padding-top: 56px;
+
+  // Vertical divider line in the center
+  &::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 56px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+      transparent,
+      $border 15%,
+      $border 85%,
+      transparent
+    );
+    opacity: 0.5;
+
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
 }
 
 .blobs {
@@ -23,31 +53,31 @@
 .blob {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
+  filter: blur(90px);
 
   &--violet {
-    top: 15%;
-    left: 15%;
+    top: 20%;
+    left: 5%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.09) 0%, transparent 70%);
   }
 
   &--pink {
-    bottom: 20%;
-    right: 10%;
+    bottom: 10%;
+    right: 5%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(34, 211, 238, 0.06) 0%, transparent 70%);
   }
 
   &--blue {
-    top: 60%;
-    left: 50%;
+    top: 40%;
+    left: 40%;
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-    filter: blur(40px);
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+    filter: blur(60px);
   }
 }
 
@@ -56,25 +86,60 @@
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(124, 58, 237, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(124, 58, 237, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+    linear-gradient(rgba(124, 58, 237, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 58, 237, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 50%, black 0%, transparent 100%);
 }
 
+//  Two-column grid layout 
 .content {
   position: relative;
   z-index: 10;
-  text-align: center;
-  padding: 0 1.5rem;
-  max-width: 800px;
-  margin: 0 auto;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "avatar  role"
+    "name    tagline"
+    "name    ctas"
+    "scroll  .";
+  align-items: start;
+  gap: 0;
+  padding-top: 5rem;
+  padding-bottom: 4rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "avatar"
+      "role"
+      "name"
+      "tagline"
+      "ctas"
+      "scroll";
+    padding: 3rem 1.5rem;
+    text-align: center;
+    justify-items: center;
+  }
 }
 
+//  Left column: Avatar 
 .avatar {
-  margin-bottom: 2rem;
+  grid-area: avatar;
   display: flex;
-  justify-content: center;
+  align-items: flex-start;
+  padding-right: 3rem;
+  padding-bottom: 1.5rem;
+
+  @media (max-width: 900px) {
+    padding-right: 0;
+    justify-content: center;
+  }
 }
 
 .avatar__wrap {
@@ -83,110 +148,182 @@
 
 .avatar__glow {
   position: absolute;
-  inset: -4px;
-  background: linear-gradient(135deg, #7c3aed, #ec4899);
-  border-radius: 50%;
-  filter: blur(8px);
-  opacity: 0.6;
+  inset: -2px;
+  background: conic-gradient(from 0deg, $accent, $cyan, $accent);
+  border-radius: 8px;
+  filter: blur(5px);
+  opacity: 0.4;
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .avatar__img {
   position: relative;
-  width: 112px;
-  height: 112px;
-  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
   object-fit: cover;
-  border: 3px solid rgba(124, 58, 237, 0.5);
+  border: 1px solid $border;
 }
 
+//  Left column: Name 
+.name {
+  grid-area: name;
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.0;
+  color: #fff;
+  margin: 0;
+  padding-right: 3rem;
+  letter-spacing: -0.03em;
+  text-align: left;
+
+  @media (max-width: 900px) {
+    text-align: center;
+    padding-right: 0;
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
+  }
+}
+
+.name__gradient {
+  display: block;
+  background: linear-gradient(135deg, $accent-light 0%, $cyan 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+//  Right column: Role pill 
 .role {
+  grid-area: role;
   display: flex;
-  justify-content: center;
-  margin-bottom: 1.5rem;
+  align-items: flex-start;
+  padding-left: 3rem;
+  padding-bottom: 1rem;
+
+  @media (max-width: 900px) {
+    padding-left: 0;
+    justify-content: center;
+  }
 }
 
 .role__pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 18px;
-  border-radius: 9999px;
-  background: rgba(124, 58, 237, 0.12);
-  border: 1px solid rgba(124, 58, 237, 0.3);
-  color: #a78bfa;
-  font-size: 12px;
-  font-family: monospace;
-  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  background: rgba(8, 12, 20, 0.9);
+  border: 1px solid $border;
+  border-radius: 4px;
+  color: $accent-light;
+  font-size: 11px;
+  font-family: $mono;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  max-width: 90vw;
-  text-align: center;
+
+  // "File path" prefix
+  &::before {
+    content: "~/";
+    color: $text-muted;
+    opacity: 0.5;
+  }
 }
 
 .role__dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: #a78bfa;
+  background: $green;
   display: inline-block;
-  box-shadow: 0 0 8px #a78bfa;
+  box-shadow: 0 0 6px $green;
+  animation: blink 2s ease-in-out infinite;
 }
 
-.name {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  font-weight: 800;
-  line-height: 1.1;
-  color: #fff;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.02em;
-  width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
 
-.name__gradient {
-  background: linear-gradient(135deg, #a78bfa 0%, #f472b6 50%, #60a5fa 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
+//  Right column: Tagline 
 .tagline {
-  font-size: 1.15rem;
-  color: #94a3b8;
-  max-width: 560px;
-  margin: 0 auto 2.5rem;
-  line-height: 1.75;
+  grid-area: tagline;
+  font-size: 0.95rem;
+  color: $text-muted;
+  line-height: 1.9;
+  font-family: $mono;
+  letter-spacing: 0.01em;
+  padding-left: 3rem;
+  padding-bottom: 1.5rem;
+  text-align: left;
+
+  // Vertical left border  like a block quote
+  border-left: 2px solid rgba(124, 58, 237, 0.25);
+  margin-left: 3rem;
+  padding-left: 1.25rem;
+
+  @media (max-width: 900px) {
+    border-left: none;
+    margin-left: 0;
+    padding-left: 0;
+    text-align: center;
+  }
 }
 
+//  Right column: CTAs 
 .ctas {
+  grid-area: ctas;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  justify-content: center;
+  gap: 8px;
   align-items: center;
+  padding-left: 3rem;
+  margin-left: 3rem;
+
+  @media (max-width: 900px) {
+    padding-left: 0;
+    margin-left: 0;
+    justify-content: center;
+  }
 }
 
+//  Left column: Scroll hint 
 .scroll {
-  margin-top: 4rem;
+  grid-area: scroll;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  margin-top: 3rem;
+  padding-right: 3rem;
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    padding-right: 0;
+    margin-top: 2rem;
+  }
 }
 
 .scroll__label {
-  color: #475569;
-  font-size: 12px;
-  letter-spacing: 0.1em;
+  color: $text-muted;
+  opacity: 0.4;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  font-family: monospace;
+  font-family: $mono;
 }
 
 .scroll__line {
-  width: 1px;
-  height: 40px;
-  background: linear-gradient(to bottom, #7c3aed, transparent);
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(124, 58, 237, 0.5), transparent);
+
+  @media (max-width: 900px) {
+    width: 1px;
+    height: 32px;
+    max-width: none;
+    background: linear-gradient(to bottom, rgba(124, 58, 237, 0.5), transparent);
+  }
 }

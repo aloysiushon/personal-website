@@ -1,54 +1,218 @@
 // ============================================================
-// AboutBlock
+// AboutBlock  Two-panel: bio left, highlights right
 // ============================================================
+$bg:       #080c14;
+$bg-panel: #0d1220;
+$accent:   #7c3aed;
+$accent-light: #a78bfa;
+$cyan:     #22d3ee;
+$text:     #e2e8f0;
+$text-muted: #64748b;
+$border:   rgba(124, 58, 237, 0.18);
+$border-dim: rgba(255, 255, 255, 0.06);
+$mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .section {
-  background: #030712;
-  padding: 6rem 1.5rem;
+  background: $bg;
+  padding: 0;
+  position: relative;
 
-  @media (max-width: 767px) {
-    padding: 3rem 1.25rem;
+  // Full-width top border with gradient fade
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, $accent 30%, $cyan 70%, transparent);
+    opacity: 0.35;
   }
 }
 
+// Main two-column workspace grid
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 420px;
+  border-left: 1px solid $border-dim;
+  border-right: 1px solid $border-dim;
+  border-bottom: 1px solid $border-dim;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+//  Left panel  file tree sidebar 
+.sidebar {
+  grid-row: 1 / -1;
+  background: $bg-panel;
+  border-right: 1px solid $border-dim;
+  padding: 0;
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 900px) {
+    grid-row: auto;
+    border-right: none;
+    border-bottom: 1px solid $border-dim;
+  }
+}
+
+.sidebar__header {
+  padding: 10px 14px;
+  border-bottom: 1px solid $border-dim;
+  display: flex;
   align-items: center;
-  text-align: center;
+  gap: 8px;
 }
 
 .label {
-  color: #a78bfa;
-  font-family: monospace;
-  font-size: 12px;
-  letter-spacing: 0.15em;
+  color: $text-muted;
+  font-family: $mono;
+  font-size: 10px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  display: block;
-  margin-bottom: 12px;
+  opacity: 0.7;
+}
+
+.sidebar__icon {
+  color: $accent-light;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+.sidebar__tree {
+  flex: 1;
+  padding: 12px 0;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 28px;
+  font-size: 12px;
+  font-family: $mono;
+  color: $text-muted;
+  cursor: default;
+  letter-spacing: 0.02em;
+  position: relative;
+  transition: all 0.12s;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    color: $accent-light;
+    opacity: 0.4;
+    font-size: 10px;
+  }
+
+  &--active {
+    color: $accent-light;
+    background: rgba(124, 58, 237, 0.08);
+
+    &::before {
+      content: "";
+      opacity: 0.7;
+      font-size: 7px;
+    }
+  }
+
+  &:hover {
+    color: $text;
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+//  Right panel  main editor pane 
+.pane {
+  background: $bg;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane__tabbar {
+  border-bottom: 1px solid $border-dim;
+  display: flex;
+  align-items: stretch;
+  height: 38px;
+  padding: 0;
+  background: $bg-panel;
+}
+
+.pane__tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 18px;
+  font-size: 11px;
+  font-family: $mono;
+  color: $accent-light;
+  border-right: 1px solid $border-dim;
+  border-bottom: 2px solid $accent;
+  background: $bg;
+  letter-spacing: 0.03em;
+
+  &::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $accent;
+    opacity: 0.7;
+  }
+}
+
+.pane__content {
+  padding: 2.5rem 3rem;
+  flex: 1;
+
+  @media (max-width: 900px) {
+    padding: 2rem 1.5rem;
+  }
 }
 
 .heading {
-  font-size: clamp(1.8rem, 4vw, 2.5rem);
-  font-weight: 700;
-  color: #f1f5f9;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 600;
+  color: $text;
   line-height: 1.2;
   margin-bottom: 1.25rem;
+  letter-spacing: -0.02em;
+
+  // Inline comment style
+  &::before {
+    display: block;
+    content: "/** about */";
+    color: $text-muted;
+    font-size: 11px;
+    font-family: $mono;
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+    opacity: 0.45;
+  }
 }
 
 .bio {
-  color: #94a3b8;
-  font-size: 1.05rem;
-  line-height: 1.8;
+  color: $text-muted;
+  font-size: 0.9rem;
+  font-family: $mono;
+  line-height: 1.95;
   margin-bottom: 2rem;
-  max-width: 640px;
+  max-width: 600px;
+  letter-spacing: 0.01em;
 }
 
 .badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+  gap: 6px;
 }

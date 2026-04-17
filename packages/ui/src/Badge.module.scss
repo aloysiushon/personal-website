@@ -1,42 +1,51 @@
 // ============================================================
-// Badge — skill/tech tag
+// Badge  OS module tag
 // ============================================================
+$mono: "JetBrains Mono", "Fira Code", monospace;
 
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 4px 12px;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-family: $mono;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
 
   &--violet {
-    background: rgba(124, 58, 237, 0.12);
+    background: rgba(124, 58, 237, 0.1);
     color: #a78bfa;
-    border: 1px solid rgba(124, 58, 237, 0.25);
+    border: 1px solid rgba(124, 58, 237, 0.22);
+    &:hover { background: rgba(124, 58, 237, 0.18); border-color: rgba(124, 58, 237, 0.4); }
   }
 
   &--blue {
-    background: rgba(59, 130, 246, 0.12);
+    background: rgba(59, 130, 246, 0.1);
     color: #60a5fa;
-    border: 1px solid rgba(59, 130, 246, 0.25);
+    border: 1px solid rgba(59, 130, 246, 0.22);
+    &:hover { background: rgba(59, 130, 246, 0.18); border-color: rgba(59, 130, 246, 0.4); }
   }
 
   &--green {
-    background: rgba(16, 185, 129, 0.12);
+    background: rgba(16, 185, 129, 0.1);
     color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.25);
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    &:hover { background: rgba(16, 185, 129, 0.18); border-color: rgba(16, 185, 129, 0.4); }
   }
 
   &--pink {
-    background: rgba(236, 72, 153, 0.12);
+    background: rgba(236, 72, 153, 0.1);
     color: #f472b6;
-    border: 1px solid rgba(236, 72, 153, 0.25);
+    border: 1px solid rgba(236, 72, 153, 0.22);
+    &:hover { background: rgba(236, 72, 153, 0.18); border-color: rgba(236, 72, 153, 0.4); }
   }
 
   &--gray {
-    background: rgba(100, 116, 139, 0.12);
+    background: rgba(100, 116, 139, 0.08);
     color: #94a3b8;
-    border: 1px solid rgba(100, 116, 139, 0.25);
+    border: 1px solid rgba(100, 116, 139, 0.2);
+    &:hover { background: rgba(100, 116, 139, 0.15); border-color: rgba(100, 116, 139, 0.35); }
   }
 }

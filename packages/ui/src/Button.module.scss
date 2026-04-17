@@ -1,53 +1,71 @@
 // ============================================================
-// Button — pure UI atom
+// Button  OS action element
 // ============================================================
+$mono: "JetBrains Mono", "Fira Code", monospace;
+$accent: #7c3aed;
+$accent-light: #a78bfa;
+$accent-dim: rgba(124, 58, 237, 0.15);
+$border: rgba(124, 58, 237, 0.22);
+$border-dim: rgba(255, 255, 255, 0.08);
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  border-radius: 12px;
+  font-family: $mono;
+  font-weight: 500;
+  border-radius: 4px;
   cursor: pointer;
   text-decoration: none;
-  transition: opacity 0.15s, transform 0.15s;
-  border: none;
+  letter-spacing: 0.04em;
+  transition: all 0.15s ease;
 
-  // ── Variants ───────────────────────────────────────────
   &--primary {
-    background: linear-gradient(135deg, #7c3aed, #6d28d9);
-    color: #fff;
-    border: none;
-    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.35);
+    background: $accent-dim;
+    color: $accent-light;
+    border: 1px solid $border;
+
+    &:hover {
+      background: rgba(124, 58, 237, 0.25);
+      border-color: rgba(124, 58, 237, 0.5);
+      box-shadow: 0 0 14px $accent-dim;
+    }
   }
 
   &--outline {
     background: transparent;
-    color: #a78bfa;
-    border: 1px solid rgba(124, 58, 237, 0.45);
-    box-shadow: none;
+    color: $accent-light;
+    border: 1px solid $border;
+
+    &:hover {
+      background: $accent-dim;
+      border-color: rgba(124, 58, 237, 0.45);
+    }
   }
 
   &--ghost {
     background: transparent;
-    color: #a78bfa;
-    border: none;
-    box-shadow: none;
+    color: $accent-light;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: $accent-dim;
+      border-color: $border;
+    }
   }
 
-  // ── Sizes ───────────────────────────────────────────────
   &--sm {
-    padding: 7px 16px;
-    font-size: 13px;
+    padding: 5px 14px;
+    font-size: 11px;
   }
 
   &--md {
-    padding: 10px 22px;
-    font-size: 15px;
+    padding: 8px 18px;
+    font-size: 12px;
   }
 
   &--lg {
-    padding: 13px 28px;
-    font-size: 16px;
+    padding: 10px 24px;
+    font-size: 13px;
   }
 }
