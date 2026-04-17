@@ -299,8 +299,8 @@ function PropField({ path, value, onChange }: FieldProps) {
 
 // ── Block label map ─────────────────────────────────────────
 const BLOCK_LABELS: Record<string, string> = {
-  navbar: "🔝 Navbar", hero: "🦸 Hero", about: "🪪 About",
-  skills: "⚡ Skills", projects: "🗂️ Projects", contact: "✉️ Contact", footer: "🔚 Footer",
+  navbar: "≡ Navbar", hero: "◆ Hero", about: "$ About",
+  skills: "{} Skills", projects: "[] Projects", contact: "@ Contact", footer: "— Footer",
 };
 
 // ── Main sidebar ────────────────────────────────────────────

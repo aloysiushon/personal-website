@@ -44,13 +44,13 @@ const blockComponents: Record<string, AnyBlockComponent> = {
 
 // Human-readable labels + emoji for the "Add Block" menu
 const BLOCK_CATALOG: { type: string; label: string; emoji: string }[] = [
-  { type: "navbar",   label: "Navbar",   emoji: "🔝" },
-  { type: "hero",     label: "Hero",     emoji: "🦸" },
-  { type: "about",    label: "About",    emoji: "🪪" },
-  { type: "skills",   label: "Skills",   emoji: "⚡" },
-  { type: "projects", label: "Projects", emoji: "🗂️" },
-  { type: "contact",  label: "Contact",  emoji: "✉️" },
-  { type: "footer",   label: "Footer",   emoji: "🔚" },
+  { type: "navbar",   label: "Navbar",   emoji: "≡" },
+  { type: "hero",     label: "Hero",     emoji: "◆" },
+  { type: "about",    label: "About",    emoji: "$" },
+  { type: "skills",   label: "Skills",   emoji: "{}" },
+  { type: "projects", label: "Projects", emoji: "[]" },
+  { type: "contact",  label: "Contact",  emoji: "@" },
+  { type: "footer",   label: "Footer",   emoji: "—" },
 ];
 
 // ── Sortable block wrapper ──────────────────────────────────

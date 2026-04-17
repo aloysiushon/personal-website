@@ -99,11 +99,12 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
 .carouselViewport {
   overflow: hidden;
   flex: 1;
+  min-width: 0;
 }
 
 .carouselTrack {
   display: flex;
-  gap: 1px;
+  gap: 1.25rem;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform;
 }

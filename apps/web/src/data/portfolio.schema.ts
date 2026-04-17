@@ -96,7 +96,7 @@ export const portfolioSchema: PageSchema = {
             description:
               "A Webflow-inspired, schema-driven portfolio builder. Every section is a block registered in a central engine. Built with TypeScript, Next.js, and a custom render engine.",
             tags: ["Next.js", "TypeScript", "Block Engine", "Monorepo"],
-            emoji: "🧱",
+            emoji: "◈",
             liveUrl: "#",
             repoUrl: "https://github.com/alexchen/portfolio-engine",
           },
@@ -105,7 +105,7 @@ export const portfolioSchema: PageSchema = {
             description:
               "A platform for developers to share projects, connect with teams, and discover open source opportunities. Real-time chat powered by WebSockets.",
             tags: ["React", "Node.js", "PostgreSQL", "WebSockets"],
-            emoji: "🔗",
+            emoji: "⇄",
             liveUrl: "#",
             repoUrl: "https://github.com/alexchen/devlink",
           },
@@ -114,7 +114,7 @@ export const portfolioSchema: PageSchema = {
             description:
               "Snap a photo of your receipt and let AI categorize your expenses automatically. Built with OpenAI Vision API and a clean mobile-first UI.",
             tags: ["React Native", "Python", "OpenAI", "FastAPI"],
-            emoji: "🧾",
+            emoji: "◎",
             repoUrl: "https://github.com/alexchen/autoreceipt",
           },
           {
@@ -122,7 +122,7 @@ export const portfolioSchema: PageSchema = {
             description:
               "A collection of developer productivity scripts and CLI tools for automating repetitive tasks — project scaffolding, git workflows, and more.",
             tags: ["Python", "Bash", "Node.js", "Open Source"],
-            emoji: "⚡",
+            emoji: "$",
             repoUrl: "https://github.com/alexchen/cli-toolkit",
           },
         ],

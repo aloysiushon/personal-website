@@ -33,19 +33,20 @@ export function SkillsBlock({ categories }: Readonly<SkillsBlockProps>): React.R
 
   const visibleCount = isMobile ? 1 : 3;
   const gap = 20; // 1.25rem in px
+  const peekPx = isMobile ? 32 : 40; // how much of the next card to reveal
 
   React.useEffect(() => {
     const measure = () => {
       if (viewportRef.current) {
         const vpW = viewportRef.current.offsetWidth;
-        setCardWidth((vpW - gap * (visibleCount - 1)) / visibleCount);
+        setCardWidth((vpW - gap * (visibleCount - 1) - peekPx) / visibleCount);
       }
     };
     measure();
     const ro = new ResizeObserver(measure);
     if (viewportRef.current) ro.observe(viewportRef.current);
     return () => ro.disconnect();
-  }, [visibleCount]);
+  }, [visibleCount, peekPx]);
 
   const maxIndex = Math.max(0, categories.length - visibleCount);
 

@@ -15,7 +15,7 @@ function newMsg(role: Message["role"], content: string): Message {
 }
 
 const INITIAL_CONTENT =
-  "👋 Hi! I'm an AI assistant for this portfolio. Ask me anything about Aloysius — his skills, projects, background, or how to get in touch!";
+  "Hi — I'm an AI assistant for this portfolio. Ask me anything about Aloysius: his skills, projects, background, or how to get in touch.";
 
 export interface ChatBotProps {
   /** When false the widget is completely hidden. Pass `false` when no API key is configured. Defaults to true. */
@@ -76,11 +76,11 @@ function ChatBotWidget(): React.ReactElement {
         setMessages((prev) => [...prev, reply]);
         if (!isOpenRef.current) setHasUnread(true);
       } else {
-        const err = newMsg("assistant", `⚠️ ${data.error ?? "Something went wrong. Please try again."}`);
+        const err = newMsg("assistant", `ERR: ${data.error ?? "Something went wrong. Please try again."}`);
         setMessages((prev) => [...prev, err]);
       }
     } catch {
-      const err = newMsg("assistant", "⚠️ Network error. Please check your connection and try again.");
+      const err = newMsg("assistant", "ERR: Network error. Please check your connection and try again.");
       setMessages((prev) => [...prev, err]);
     } finally {
       setIsLoading(false);
@@ -111,7 +111,7 @@ function ChatBotWidget(): React.ReactElement {
           <span className={styles.fab__icon}>✕</span>
         ) : (
           <>
-            <span className={styles.fab__icon}>💬</span>
+            <span className={styles.fab__icon}>&gt;_</span>
             {hasUnread && <span className={styles.fab__badge} />}
           </>
         )}
@@ -123,7 +123,7 @@ function ChatBotWidget(): React.ReactElement {
           {/* Header */}
           <div className={styles.header}>
             <div className={styles.header__left}>
-              <span className={styles.header__avatar} aria-hidden="true">🤖</span>
+              <span className={styles.header__avatar} aria-hidden="true">&gt;_</span>
               <div>
                 <p className={styles.header__name}>Portfolio AI</p>
                 <p className={styles.header__status}>
@@ -137,7 +137,7 @@ function ChatBotWidget(): React.ReactElement {
               className={styles.header__clear}
               title="Clear conversation"
             >
-              🗑️ Clear
+              ✕ Clear
             </button>
           </div>
 
@@ -151,7 +151,7 @@ function ChatBotWidget(): React.ReactElement {
                 }`}
               >
                 {msg.role === "assistant" && (
-                  <span className={styles.message__avatar} aria-hidden="true">🤖</span>
+                  <span className={styles.message__avatar} aria-hidden="true">&gt;_</span>
                 )}
                 <div className={styles.message__bubble}>
                   <p className={styles.message__text}>{msg.content}</p>

@@ -28,10 +28,16 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   padding: 0 2rem;
   height: 56px;
   display: grid;
-  // Left: traffic dots + brand | Center: nav tabs | Right: status
+  // Left: brand | Center: nav tabs | Right: hamburger
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 2rem;
+
+  @media (max-width: 767px) {
+    grid-template-columns: auto 1fr auto;
+    gap: 0;
+    padding: 0 1.25rem;
+  }
 }
 
 .brand {
@@ -74,8 +80,9 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   letter-spacing: 0.02em;
 }
 
-// Tab-bar style links
+// Tab-bar style links — desktop only
 .links {
+  counter-reset: nav-tab;
   display: flex;
   align-items: stretch;
   height: 56px;
@@ -84,6 +91,10 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   margin: 0;
   padding: 0;
   justify-content: center;
+
+  @media (max-width: 767px) {
+    display: none;
+  }
 }
 
 .link {
@@ -96,6 +107,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   padding: 0 18px;
   display: flex;
   align-items: center;
+  height: 56px;
   border-right: 1px solid $border-dim;
   border-bottom: 2px solid transparent;
   transition: all 0.15s;
@@ -121,4 +133,76 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   }
 }
 
-.links { counter-reset: nav-tab; }
+// ── Hamburger button ──────────────────────────────────────
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: 1px solid $border;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  margin-left: auto;
+
+  span {
+    display: block;
+    width: 14px;
+    height: 1px;
+    background: $accent-light;
+    border-radius: 1px;
+    transition: all 0.2s;
+  }
+
+  &--open span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+  }
+  &--open span:nth-child(2) {
+    opacity: 0;
+  }
+  &--open span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  @media (max-width: 767px) {
+    display: flex;
+  }
+}
+
+// ── Mobile dropdown menu ──────────────────────────────────
+.mobileMenu {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  background: rgba(13, 18, 32, 0.98);
+  border-bottom: 1px solid $border;
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.mobileLink {
+  display: block;
+  padding: 0.75rem 1.5rem;
+  color: $text-muted;
+  text-decoration: none;
+  font-size: 11px;
+  font-family: $mono;
+  letter-spacing: 0.05em;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+
+  &:hover {
+    color: $accent-light;
+    background: rgba(124, 58, 237, 0.07);
+    border-left-color: $accent;
+  }
+}

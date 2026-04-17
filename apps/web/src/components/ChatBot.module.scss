@@ -48,8 +48,12 @@ $mono:         "JetBrains Mono", "Fira Code", monospace;
 }
 
 .fab__icon {
-  font-size: 18px;
+  font-size: 12px;
+  font-family: $mono;
+  font-weight: 600;
+  letter-spacing: -0.04em;
   line-height: 1;
+  color: $accent-light;
 }
 
 .fab__badge {
@@ -122,8 +126,12 @@ $mono:         "JetBrains Mono", "Fira Code", monospace;
 }
 
 .header__avatar {
-  font-size: 18px;
+  font-size: 11px;
+  font-family: $mono;
+  color: $accent-light;
   line-height: 1;
+  letter-spacing: -0.02em;
+  opacity: 0.9;
 }
 
 .header__name {
@@ -216,10 +224,14 @@ $mono:         "JetBrains Mono", "Fira Code", monospace;
 }
 
 .message__avatar {
-  font-size: 16px;
+  font-size: 9px;
+  font-family: $mono;
+  color: $accent-light;
   line-height: 1;
   flex-shrink: 0;
   margin-bottom: 2px;
+  letter-spacing: -0.02em;
+  opacity: 0.7;
 }
 
 .message__bubble {
