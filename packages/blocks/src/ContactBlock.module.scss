@@ -2,16 +2,16 @@
 // ContactBlock  Terminal connection endpoint
 // ============================================================
 $bg:       #080c14;
-$bg-panel: #0d1220;
+$bg-panel: #0d1422;
 $accent:   #7c3aed;
 $accent-light: #a78bfa;
 $accent-dim: rgba(124, 58, 237, 0.15);
 $cyan:     #22d3ee;
 $green:    #10b981;
 $text:     #e2e8f0;
-$text-muted: #64748b;
-$border:   rgba(124, 58, 237, 0.18);
-$border-dim: rgba(255, 255, 255, 0.06);
+$text-muted: #8b9dc3;
+$border:   rgba(124, 58, 237, 0.30);
+$border-dim: rgba(255, 255, 255, 0.10);
 $mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .section {
@@ -83,7 +83,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   font-family: $mono;
   font-size: 10px;
   color: $text-muted;
-  opacity: 0.6;
+  opacity: 1;
   letter-spacing: 0.05em;
 }
 
@@ -111,13 +111,13 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
 
   &--comment {
     color: $text-muted;
-    opacity: 0.4;
-    &::before { content: "//"; color: $text-muted; font-size: 10px; opacity: 0.5; }
+    opacity: 0.7;
+    &::before { content: "//"; color: $text-muted; font-size: 10px; opacity: 0.7; }
     gap: 8px;
   }
 
   &--output {
-    color: $text-muted;
+    color: #a0aec0;
     padding-left: 18px;
   }
 
@@ -149,7 +149,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   font-family: $mono;
   font-size: 10px;
   color: $text-muted;
-  opacity: 0.6;
+  opacity: 1;
   letter-spacing: 0.05em;
 }
 
@@ -163,7 +163,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  opacity: 0.5;
+  opacity: 1;
 }
 
 .panel__body {
@@ -189,12 +189,12 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
     font-family: $mono;
     font-weight: 400;
     margin-bottom: 8px;
-    opacity: 0.4;
+    opacity: 0.65;
   }
 }
 
 .desc {
-  color: $text-muted;
+  color: #a0aec0;
   font-size: 0.85rem;
   font-family: $mono;
   line-height: 1.8;
@@ -251,7 +251,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .email {
   color: $text-muted;
-  opacity: 0.3;
+  opacity: 0.75;
   font-size: 11px;
   font-family: $mono;
   letter-spacing: 0.05em;

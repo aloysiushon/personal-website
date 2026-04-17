@@ -16,7 +16,7 @@ const meta: Meta<typeof HeroBlock> = {
   tags: ["autodocs"],
   parameters: {
     layout: "fullscreen",
-    backgrounds: { default: "os-dark" },
+    backgrounds: { default: "dark" },
     docs: {
       description: {
         component:

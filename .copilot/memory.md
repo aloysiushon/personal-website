@@ -99,12 +99,11 @@ Never break block-based architecture.
 | ----------------------------------------------- | -------------------------------------------------------------------- |
 | `packages/ui/src/Badge.stories.tsx`             | Violet, Blue, Green, Pink, Gray, AllColors                           |
 | `packages/ui/src/Button.stories.tsx`            | Primary, Outline, Ghost, Small, Large, AsLink, AllVariants, AllSizes |
-| `packages/ui/src/SectionWrapper.stories.tsx`    | Default, WithCustomBackground, NarrowContent                         |
 | `packages/blocks/src/NavbarBlock.stories.tsx`   | Default, ShortName, MinimalLinks, ManyLinks                          |
-| `packages/blocks/src/HeroBlock.stories.tsx`     | Default, WithAvatar, StudentPortfolio                                |
-| `packages/blocks/src/AboutBlock.stories.tsx`    | Default, ImageLeft, MinimalHighlights                                |
-| `packages/blocks/src/ProjectsBlock.stories.tsx` | Default, SingleProject, NoLinks, ManyProjects                        |
-| `packages/blocks/src/SkillsBlock.stories.tsx`   | Default, SingleCategory, AllColors                                   |
+| `packages/blocks/src/HeroBlock.stories.tsx`     | Default, WithAvatar, StudentPortfolio, LongNameWithAvatar            |
+| `packages/blocks/src/AboutBlock.stories.tsx`    | Default, MinimalHighlights                                           |
+| `packages/blocks/src/ProjectsBlock.stories.tsx` | Default, Desktop, Mobile, SingleProject, NoLinks                     |
+| `packages/blocks/src/SkillsBlock.stories.tsx`   | Default, Desktop, Mobile, SingleCategory, AllColors                  |
 | `packages/blocks/src/ContactBlock.stories.tsx`  | Default, EmailOnly, EmailAndGitHub, AllSocialLinks                   |
 | `packages/blocks/src/FooterBlock.stories.tsx`   | Default, WithCustomYear, ShortName                                   |
 | `packages/blocks/src/ChatBot.stories.tsx`       | Enabled, Disabled, SlowResponse, ApiError, NetworkError              |
@@ -138,3 +137,23 @@ Never break block-based architecture.
 - Role pill uses `fontSize: 12`, `letterSpacing: 0.08em` to accommodate long titles (e.g. "Full Stack Developer & CS Student").
 - Tagline `<p>` is constrained to `maxWidth: 560` with `margin: "0 auto"` for centred alignment.
 - All section backgrounds alternate between `#030712` and `#060b18` to create visual rhythm.
+
+### Design Token Reference (all blocks)
+
+All block SCSS files (`AboutBlock`, `SkillsBlock`, `ProjectsBlock`, `ContactBlock`, `NavbarBlock`, `FooterBlock`, `HeroBlock`) share these token values for consistency:
+
+| Token           | Value                                    | Purpose                                  |
+| --------------- | ---------------------------------------- | ---------------------------------------- |
+| `$bg`           | `#080c14`                                | Section background                       |
+| `$bg-panel`     | `#0d1422`                                | Header / sidebar panel background        |
+| `$accent`       | `#7c3aed`                                | Primary violet accent                    |
+| `$accent-light` | `#a78bfa`                                | Lighter violet for text/icons            |
+| `$accent-dim`   | `rgba(124,58,237,0.15)`                  | Subtle accent fill                       |
+| `$text`         | `#e2e8f0`                                | Primary text                             |
+| `$text-muted`   | `#8b9dc3`                                | Secondary / muted text (~5.5:1 contrast) |
+| `$border`       | `rgba(124,58,237,0.30)`                  | Accent borders                           |
+| `$border-dim`   | `rgba(255,255,255,0.10)`                 | Structural dividers                      |
+| `$mono`         | `"JetBrains Mono","Fira Code",monospace` | Monospace font stack                     |
+
+Body prose text (`bio`, `card__desc`, `desc`) uses `#a0aec0` (~6:1 contrast) for better readability.
+Chrome label / heading `opacity` values are `1` (labels) and `0.75` (secondary headings) — no stacking on already-dim colours.

@@ -2,14 +2,14 @@
 // SkillsBlock  Terminal module registry (full-width grid)
 // ============================================================
 $bg:       #080c14;
-$bg-panel: #0d1220;
+$bg-panel: #0d1422;
 $accent:   #7c3aed;
 $accent-light: #a78bfa;
 $accent-dim: rgba(124, 58, 237, 0.15);
 $text:     #e2e8f0;
-$text-muted: #64748b;
-$border:   rgba(124, 58, 237, 0.18);
-$border-dim: rgba(255, 255, 255, 0.06);
+$text-muted: #8b9dc3;
+$border:   rgba(124, 58, 237, 0.30);
+$border-dim: rgba(255, 255, 255, 0.10);
 $mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .section {
@@ -64,25 +64,21 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  opacity: 0.6;
+  opacity: 1;
 
   &::before {
     content: "$ ls ";
     color: $accent-light;
-    opacity: 0.5;
+    opacity: 0.8;
   }
 }
 
 .heading {
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  font-weight: 500;
-  color: $text;
-  letter-spacing: -0.01em;
   margin-left: auto;
   font-family: $mono;
   font-size: 11px;
   color: $text-muted;
-  opacity: 0.5;
+  opacity: 0.75;
   letter-spacing: 0.03em;
 }
 

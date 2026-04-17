@@ -2,15 +2,15 @@
 // ProjectsBlock  OS file manager / project explorer
 // ============================================================
 $bg:       #080c14;
-$bg-panel: #0d1220;
+$bg-panel: #0d1422;
 $accent:   #7c3aed;
 $accent-light: #a78bfa;
 $accent-dim: rgba(124, 58, 237, 0.15);
 $cyan:     #22d3ee;
 $text:     #e2e8f0;
-$text-muted: #64748b;
-$border:   rgba(124, 58, 237, 0.18);
-$border-dim: rgba(255, 255, 255, 0.06);
+$text-muted: #8b9dc3;
+$border:   rgba(124, 58, 237, 0.30);
+$border-dim: rgba(255, 255, 255, 0.10);
 $mono:     "JetBrains Mono", "Fira Code", monospace;
 
 .section {
@@ -52,7 +52,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  opacity: 0.6;
+  opacity: 1;
 }
 
 .heading {
@@ -60,7 +60,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
   font-family: $mono;
   font-size: 10px;
   color: $text-muted;
-  opacity: 0.4;
+  opacity: 0.75;
   letter-spacing: 0.04em;
 }
 
@@ -214,7 +214,7 @@ $mono:     "JetBrains Mono", "Fira Code", monospace;
 }
 
 .card__desc {
-  color: $text-muted;
+  color: #a0aec0;
   line-height: 1.75;
   font-size: 0.825rem;
   font-family: $mono;

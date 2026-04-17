@@ -170,34 +170,17 @@ OUTPUT:
 - Saved to `localStorage` under key `portfolio-layout`
 - Loaded on mount, falls back to `portfolioSchema` default
 
+---
+
+## TASK: update-design-tokens (future)
+
 INPUT:
-block name + props
+new colour token values
 
 OUTPUT:
 
-- React component in `packages/blocks/src/<Name>Block.tsx`
-- TypeScript interface for props
-- **Storybook story in `packages/blocks/src/<Name>Block.stories.tsx`** ← REQUIRED
-- Registration entry in `packages/blocks/src/register.ts`
-- Export in `packages/blocks/src/index.ts`
-- Entry in `blockComponents` map inside `PortfolioPage.tsx`
-
-NOTE: Use **inline styles only** — no Tailwind classes. Tailwind scanning
-is not guaranteed across workspace packages at build time.
-
----
-
-## TASK: create-page
-
-INPUT:
-JSON layout schema
-
-OUTPUT:
-
-- Entry added to `apps/web/src/data/portfolio.schema.ts`
-- Next.js page renders it via `Engine` component automatically
-
----
+- All block `.module.scss` files updated to use new tokens
+- `memory.md` Design Token Reference table updated to match
 
 ## TASK: create-theme
 
